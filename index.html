@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Raid CvC points calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+        header {
+            /*position: sticky;
+            top: 0;*/
+            background-color: white;
+            border-bottom: 1px solid var(--bs-gray-400);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-md">
+
+    <header class="position-sticky top-0 mb-2">
+        <h1>Raid CvC points calculator</h1>
+        <div class="d-flex flex-row align-items-center">
+            <span>Total points:</span>
+            <span class="fs-1 ms-2" id="total-points">0</span>
+        </div>
+    </header>
+
+    <main class="pb-3">
+
+        <h2>Champion objectives</h2>
+        <!-- get champions ----------------------------------------------------------------------------------------- -->
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Get champions</h3>
+                <div>
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7">
+                            <label for="f-get-champ-common">common</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-get-champ-common" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7 ">
+                            <label for="f-get-champ-uncommon">uncommon</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-get-champ-uncommon" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7 ">
+                            <label for="f-get-champ-rare">rare</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-get-champ-rare" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7 ">
+                            <label for="f-get-champ-epic">epic</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-get-champ-epic" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7 ">
+                            <label for="f-get-champ-legendary">legendary</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-get-champ-legendary" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <h3 title="Get champions for the first time" off-data-bs-toggle="tooltip" off-data-bs-placement="bottom">
+                    <span class="d-md-none">Get champions for</span> the first time
+                </h3>
+                <div>
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7">
+                            <label for="f-get-champ-f-common">common</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-get-champ-f-common" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7 ">
+                            <label for="f-get-champ-f-uncommon">uncommon</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-get-champ-f-uncommon" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7 ">
+                            <label for="f-get-champ-f-rare">rare</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-get-champ-f-rare" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7 ">
+                            <label for="f-get-champ-f-epic">epic</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-get-champ-f-epic" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7 ">
+                            <label for="f-get-champ-f-legendary">legendary</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-get-champ-f-legendary" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- upgrade champions ------------------------------------------------------------------------------------- -->
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Upgrade levels</h3>
+                <div>
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7">
+                            <label for="f-level-up-rank-1">level-up rank 1</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-level-up-rank-1" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7">
+                            <label for="f-level-up-rank-2">level-up rank 2</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-level-up-rank-2" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7">
+                            <label for="f-level-up-rank-3">level-up rank 3</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-level-up-rank-3" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7">
+                            <label for="f-level-up-rank-4">level-up rank 4</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-level-up-rank-4" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7">
+                            <label for="f-level-up-rank-5">level-up rank 5</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-level-up-rank-5" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7">
+                            <label for="f-level-up-rank-6">level-up rank 6</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-level-up-rank-6" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <h3>Upgrade ranks</h3>
+                <div>
+
+                    <div class="row align-items-center mt-1 d-none d-sm-block">
+                        <div class="col-7">
+
+                        </div>
+                        <div class="col-5">
+                            <input type="number" min="0" value="0" class="form-control invisible">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7">
+                            <label for="f-upgrade-to-rank-2">upgrade to rank 2</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-upgrade-to-rank-2" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7">
+                            <label for="f-upgrade-to-rank-3">upgrade to rank 3</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-upgrade-to-rank-3" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7">
+                            <label for="f-upgrade-to-rank-4">upgrade to rank 4</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-upgrade-to-rank-4" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7">
+                            <label for="f-upgrade-to-rank-5">upgrade to rank 5</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-upgrade-to-rank-5" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-1">
+                        <div class="col-7">
+                            <label for="f-upgrade-to-rank-6">upgrade to rank 6</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="number" id="f-upgrade-to-rank-6" min="0" value="0" class="form-control">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script>
+        // tooltips
+        let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+    <script>
+
+        const awards = {
+            get_champion: {
+                common: 1,
+                uncommon: 2,
+                rare: 150,
+                epic: 1000,
+                legendary: 10000,
+            },
+            get_champion_first: {
+                common: 10,
+                uncommon: 20,
+                rare: 1000,
+                epic: 3000,
+                legendary: 20000,
+            },
+            upgrade_level: {
+                rank_1: 1,
+                rank_2: 2,
+                rank_3: 5,
+                rank_4: 10,
+                rank_5: 20,
+                rank_6: 40,
+            },
+            upgrade_rank: {
+                rank_2: 10,
+                rank_3: 20,
+                rank_4: 100,
+                rank_5: 500,
+                rank_6: 1000,
+            },
+        }
+
+        const champions = ['common', 'uncommon', 'rare', 'epic', 'legendary'];
+        const ranks = [1, 2, 3, 4, 5, 6];
+
+        function updateThePoints() {
+            let points = 0;
+            points += getPointsForGetChampions();
+            points += getPointsForUpgradeLevels();
+            points += getPointsForUpgradeRanks();
+            //console.log('updateThePoints', points);
+            //document.getElementById('total-points').textContent = points;
+            document.getElementById('total-points').textContent = new Intl.NumberFormat().format(points);
+        }
+
+        function getPointsForGetChampions() {
+            let points = 0;
+            champions.forEach(name => {
+                points += document.getElementById('f-get-champ-' + name).value * awards['get_champion'][name];
+                points += document.getElementById('f-get-champ-f-' + name).value * awards['get_champion_first'][name];
+            });
+            return points;
+        }
+
+        function getPointsForUpgradeLevels() {
+            let points = 0;
+            ranks.forEach(name => {
+                points += document.getElementById('f-level-up-rank-' + name).value * awards['upgrade_level']['rank_' + name];
+            });
+            return points;
+        }
+
+        function getPointsForUpgradeRanks() {
+            let points = 0;
+            ranks.slice(1).forEach(name => {
+                points += document.getElementById('f-upgrade-to-rank-' + name).value * awards['upgrade_rank']['rank_' + name];
+            });
+            return points;
+        }
+
+        document.querySelectorAll('input[type=number]').forEach(inp => {
+            inp.addEventListener('change', updateThePoints);
+            inp.addEventListener('keyup', updateThePoints);
+            //inp.addEventListener('click', updateThePoints);
+        });
+
+
+
+    </script>
+</body>
+</html>
