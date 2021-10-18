@@ -455,6 +455,138 @@
             </div>
         </div>
 
+
+        <!-- upgrade skills and great hall ------------------------------------------------------------------------ -->
+
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Upgrade skills</h3>
+                <div class="row align-items-center mt-1">
+                    <div class="col-7">
+                        <label for="f-upgrade-skill-common">common skill</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="number" id="f-upgrade-skill-common" min="0" value="0" class="form-control">
+                    </div>
+                </div>
+                <div class="row align-items-center mt-1">
+                    <div class="col-7">
+                        <label for="f-upgrade-skill-uncommon">uncommon skill</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="number" id="f-upgrade-skill-uncommon" min="0" value="0" class="form-control">
+                    </div>
+                </div>
+                <div class="row align-items-center mt-1">
+                    <div class="col-7">
+                        <label for="f-upgrade-skill-rare">rare skill</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="number" id="f-upgrade-skill-rare" min="0" value="0" class="form-control">
+                    </div>
+                </div>
+                <div class="row align-items-center mt-1">
+                    <div class="col-7">
+                        <label for="f-upgrade-skill-epic">epic skill</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="number" id="f-upgrade-skill-epic" min="0" value="0" class="form-control">
+                    </div>
+                </div>
+                <div class="row align-items-center mt-1">
+                    <div class="col-7">
+                        <label for="f-upgrade-skill-legendary">legendary skill</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="number" id="f-upgrade-skill-legendary" min="0" value="0" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h3>Great hall bonuses</h3>
+                <div class="row align-items-center mt-1">
+                    <div class="col-7">
+                        <label for="f-great-hall-bonus-1">bonus level 1</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="number" id="f-great-hall-bonus-1" min="0" value="0" class="form-control">
+                    </div>
+                </div>
+                <div class="row align-items-center mt-1">
+                    <div class="col-7">
+                        <label for="f-great-hall-bonus-2">bonus level 2</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="number" id="f-great-hall-bonus-2" min="0" value="0" class="form-control">
+                    </div>
+                </div>
+                <div class="row align-items-center mt-1">
+                    <div class="col-7">
+                        <label for="f-great-hall-bonus-3">bonus level 3</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="number" id="f-great-hall-bonus-3" min="0" value="0" class="form-control">
+                    </div>
+                </div>
+                <div class="row align-items-center mt-1">
+                    <div class="col-7">
+                        <label for="f-great-hall-bonus-4">bonus level 4</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="number" id="f-great-hall-bonus-4" min="0" value="0" class="form-control">
+                    </div>
+                </div>
+                <div class="row align-items-center mt-1">
+                    <div class="col-7">
+                        <label for="f-great-hall-bonus-5">bonus level 5</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="number" id="f-great-hall-bonus-5" min="0" value="0" class="form-control">
+                    </div>
+                </div>
+                <div class="row align-items-center mt-1">
+                    <div class="col-7">
+                        <label for="f-great-hall-bonus-6">bonus level 6</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="number" id="f-great-hall-bonus-6" min="0" value="0" class="form-control">
+                    </div>
+                </div>
+                <div class="row align-items-center mt-1">
+                    <div class="col-7">
+                        <label for="f-great-hall-bonus-7">bonus level 7</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="number" id="f-great-hall-bonus-7" min="0" value="0" class="form-control">
+                    </div>
+                </div>
+                <div class="row align-items-center mt-1">
+                    <div class="col-7">
+                        <label for="f-great-hall-bonus-8">bonus level 8</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="number" id="f-great-hall-bonus-8" min="0" value="0" class="form-control">
+                    </div>
+                </div>
+                <div class="row align-items-center mt-1">
+                    <div class="col-7">
+                        <label for="f-great-hall-bonus-9">bonus level 9</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="number" id="f-great-hall-bonus-9" min="0" value="0" class="form-control">
+                    </div>
+                </div>
+                <div class="row align-items-center mt-1">
+                    <div class="col-7">
+                        <label for="f-great-hall-bonus-10">bonus level 10</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="number" id="f-great-hall-bonus-10" min="0" value="0" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
 </div>
@@ -524,6 +656,25 @@
                 legendary_4: 500,
                 legendary_5: 1000,
                 legendary_6: 2500,
+            },
+            upgrade_skill: {
+                common: 10,
+                uncommon: 20,
+                rare: 500,
+                epic: 1000,
+                legendary: 3000,
+            },
+            great_hall: {
+                level_1: 100,
+                level_2: 200,
+                level_3: 500,
+                level_4: 750,
+                level_5: 1000,
+                level_6: 1500,
+                level_7: 2000,
+                level_8: 2500,
+                level_9: 3500,
+                level_10: 5000,
             }
         }
 
@@ -536,6 +687,8 @@
             points += getPointsForUpgradeLevels();
             points += getPointsForUpgradeRanks();
             points += getPointsForAscension();
+            points += getPointsForUpgradeSkills();
+            points += getPointsForGreatHall();
             //console.log('updateThePoints', points);
             //document.getElementById('total-points').textContent = points;
             document.getElementById('total-points').textContent = new Intl.NumberFormat().format(points);
@@ -573,6 +726,22 @@
                     points += document.getElementById(`f-ascend-${name}-${rank}`).value * awards['ascend'][`${name}_${rank}`];
                 })
             });
+            return points;
+        }
+
+        function getPointsForUpgradeSkills() {
+            let points = 0;
+            champions.forEach(name => {
+                points += document.getElementById(`f-upgrade-skill-${name}`).value * awards['upgrade_skill'][name];
+            });
+            return points;
+        }
+
+        function getPointsForGreatHall() {
+            let points = 0;
+            for (let i=1; i<=10; i++) {
+                points += document.getElementById(`f-great-hall-bonus-${i}`).value * awards['great_hall'][`level_${i}`];
+            }
             return points;
         }
 
