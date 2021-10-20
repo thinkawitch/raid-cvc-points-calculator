@@ -3,8 +3,8 @@ import { AppContext, prepareUpdate } from '../../app-context.js';
 import NumberInput from '../number-input.js';
 
 export default function greatHall() {
-    const { state, update } = useContext(AppContext);
-    const setNewValue = prepareUpdate('inputs.champion_objectives.great_hall.', update);
+    const { state, updateState } = useContext(AppContext);
+    const setNewValue = prepareUpdate('inputs.champion_objectives.great_hall.', updateState);
     const local = state.inputs.champion_objectives.great_hall;
     const points = new Intl.NumberFormat().format(state.points.champion_objectives.great_hall);
     return html`

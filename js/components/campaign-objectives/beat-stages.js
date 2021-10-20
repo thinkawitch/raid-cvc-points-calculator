@@ -3,8 +3,8 @@ import { AppContext, prepareUpdate } from '../../app-context.js';
 import NumberInput from '../number-input.js';
 
 export default function beatStages() {
-    const { state, update } = useContext(AppContext);
-    const setNewValue = prepareUpdate('inputs.campaign_objectives.beat_stages.', update);
+    const { state, updateState } = useContext(AppContext);
+    const setNewValue = prepareUpdate('inputs.campaign_objectives.beat_stages.', updateState);
     const local = state.inputs.campaign_objectives.beat_stages;
     const points = new Intl.NumberFormat().format(state.points.campaign_objectives.beat_stages);
     return html`

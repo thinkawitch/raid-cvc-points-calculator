@@ -5,18 +5,40 @@ export const AppContext = createContext();
 
 //const reducer = (state, pair) => ({ ...state, ...pair })
 
+const localStorageAvailable = storageAvailable('localStorage');
+
 const reducer = (state, pair) => {
-    if (!pair || !pair.path)  {
+    //console.log('pair', pair)
+    if (!pair || !(pair.path || pair.clear))  {
+        console.warn('reducer unknown pair', pair);
         // do noting if update have no specific data
         return state;
     }
-    //console.log('reducer');
-    //console.log('state', state, 'pair', pair)
-    //return { ...state, ...pair };
 
-    const newState = { ...state };
-    setObjectProperty(newState, pair.path, pair.value);
+    let newState;
 
+    // update one property by full path
+    if (pair.path) {
+        console.log('action set by path')
+        newState = {...state};
+        setObjectProperty(newState, pair.path, parseInt(pair.value));
+        calculatePoints(newState);
+    }
+
+    // reset to default
+    if (pair.clear) {
+        newState = clone(initialState); // deep cloning, may be replace with func returning the initial state
+    }
+
+    // save to storage
+    if (localStorageAvailable) {
+        localStorage.setItem('calculator-state', JSON.stringify(newState));
+    }
+
+    return newState;
+}
+
+function calculatePoints(newState) {
     // count points
     let totalPoints = 0;
     let sectionPoints, groupPoints;
@@ -103,8 +125,6 @@ const reducer = (state, pair) => {
 
     // total
     newState.points.total = totalPoints;
-
-    return newState;
 }
 
 const setObjectProperty = (object, path, value) => {
@@ -224,23 +244,100 @@ const initialState = {
             }
         },
     },
-    some_extra: 1,
 }
 
-export const prepareUpdate = (prefix, update) => {
+
+let loadedState = {};
+if (localStorageAvailable) {
+    const val = localStorage.getItem('calculator-state');
+    if (val) {
+        loadedState = JSON.parse(val);
+    }
+    console.log('loadedState', loadedState);
+}
+
+const startState = {...initialState, ...loadedState};
+//const startState = {...loadedState};
+
+// prepareStateUpdateWithPath
+export const prepareUpdate = (prefix, updateState) => {
     return (name, value) => {
-        //console.log('call update', prefix, name, value);
-        update({ path: prefix + name, value });
+        //console.log('call updateState', prefix, name, value);
+        updateState({ path: prefix + name, value });
     }
 }
 
 
 
 export function AppProvider({ children }) {
-    const [state, update] = useReducer(reducer, initialState);
+    const [state, updateState] = useReducer(reducer, startState);
+
     return html`
-        <${AppContext.Provider} value=${{ state, update }}>
+        <${AppContext.Provider} value=${{ state, updateState }}>
             ${children}
         <//>
     `;
+}
+
+
+
+function storageAvailable(type) {
+    let storage;
+    try {
+        storage = window[type];
+        let x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch(e) {
+        return e instanceof DOMException && (
+                // everything except Firefox
+                e.code === 22 ||
+                // Firefox
+                e.code === 1014 ||
+                // test name field too, because code might not be present
+                // everything except Firefox
+                e.name === 'QuotaExceededError' ||
+                // Firefox
+                e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
+    }
+}
+
+// https://github.com/angus-c/just/blob/master/packages/collection-clone/index.js
+function clone(obj) {
+    if (typeof obj == 'function') {
+        return obj;
+    }
+    var result = Array.isArray(obj) ? [] : {};
+    for (var key in obj) {
+        // include prototype properties
+        var value = obj[key];
+        var type = {}.toString.call(value).slice(8, -1);
+        if (type == 'Array' || type == 'Object') {
+            result[key] = clone(value);
+        } else if (type == 'Date') {
+            result[key] = new Date(value.getTime());
+        } else if (type == 'RegExp') {
+            result[key] = RegExp(value.source, getRegExpFlags(value));
+        } else {
+            result[key] = value;
+        }
+    }
+    return result;
+}
+function getRegExpFlags(regExp) {
+    if (typeof regExp.source.flags == 'string') {
+        return regExp.source.flags;
+    } else {
+        var flags = [];
+        regExp.global && flags.push('g');
+        regExp.ignoreCase && flags.push('i');
+        regExp.multiline && flags.push('m');
+        regExp.sticky && flags.push('y');
+        regExp.unicode && flags.push('u');
+        return flags.join('');
+    }
 }

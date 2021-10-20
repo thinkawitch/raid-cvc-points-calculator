@@ -3,8 +3,8 @@ import { AppContext, prepareUpdate } from '../../app-context.js';
 import NumberInput from '../number-input.js';
 
 export default function upgradeRanks() {
-    const { state, update } = useContext(AppContext);
-    const setNewValue = prepareUpdate('inputs.champion_objectives.upgrade_ranks.', update);
+    const { state, updateState } = useContext(AppContext);
+    const setNewValue = prepareUpdate('inputs.champion_objectives.upgrade_ranks.', updateState);
     const local = state.inputs.champion_objectives.upgrade_ranks;
     const points = new Intl.NumberFormat().format(state.points.champion_objectives.upgrade_ranks);
     return html`
