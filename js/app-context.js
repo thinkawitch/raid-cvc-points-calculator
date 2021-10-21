@@ -1,5 +1,8 @@
 import { html, createContext, useReducer } from './imports.js';
-import { awardPoints, championTypes, championRanks, stageLevels } from './config.js';
+import {
+    storageKey,
+    awardPoints,
+} from './config.js';
 
 export const AppContext = createContext();
 
@@ -11,7 +14,7 @@ const reducer = (state, pair) => {
     //console.log('pair', pair)
     if (!pair || !(pair.path || pair.clear))  {
         console.warn('reducer unknown pair', pair);
-        // do noting if update have no specific data
+        // do nothing if update have no specific data
         return state;
     }
 
@@ -19,20 +22,25 @@ const reducer = (state, pair) => {
 
     // update one property by full path
     if (pair.path) {
-        console.log('action set by path')
+        //console.log('action set by path')
         newState = {...state};
-        setObjectProperty(newState, pair.path, parseInt(pair.value));
+        setObjectProperty(newState, pair.path, pair.value);
         calculatePoints(newState);
     }
 
     // reset to default
     if (pair.clear) {
+        //console.log('action clear')
+        if (localStorageAvailable) {
+            localStorage.clear(); // clear all data, delete obsolete states too
+        }
         newState = clone(initialState); // deep cloning, may be replace with func returning the initial state
+        newState.layout = clone(state.layout); // keep layout
     }
 
     // save to storage
     if (localStorageAvailable) {
-        localStorage.setItem('calculator-state', JSON.stringify(newState));
+        localStorage.setItem(storageKey, JSON.stringify(newState));
     }
 
     return newState;
@@ -43,100 +51,22 @@ function calculatePoints(newState) {
     let totalPoints = 0;
     let sectionPoints, groupPoints;
 
-    // sections
-    // champion objectives
-    sectionPoints = 0;
-
-    // get champions
-    groupPoints = 0;
-    championTypes.forEach(type => {
-        groupPoints += newState.inputs.champion_objectives.get_champions[type] * awardPoints.get_champions[type];
-    });
-    newState.points.champion_objectives.get_champions = groupPoints;
-    sectionPoints += groupPoints;
-
-    // get champions first time
-    groupPoints = 0;
-    championTypes.forEach(type => {
-        groupPoints += newState.inputs.champion_objectives.get_champions_first[type] * awardPoints.get_champions_first[type];
-    });
-    newState.points.champion_objectives.get_champions_first = groupPoints;
-    sectionPoints += groupPoints;
-
-    // upgrade levels
-    groupPoints = 0;
-    championRanks.forEach(rank => {
-        groupPoints += newState.inputs.champion_objectives.upgrade_levels['rank_'+rank] * awardPoints.upgrade_levels['rank_'+rank];
-    });
-    newState.points.champion_objectives.upgrade_levels = groupPoints;
-    sectionPoints += groupPoints;
-
-    // upgrade ranks
-    groupPoints = 0;
-    championRanks.slice(1).forEach(rank => {
-        groupPoints += newState.inputs.champion_objectives.upgrade_ranks['rank_'+rank] * awardPoints.upgrade_ranks['rank_'+rank];
-    });
-    newState.points.champion_objectives.upgrade_ranks = groupPoints;
-    sectionPoints += groupPoints;
-
-    // ascend champions
-    groupPoints = 0;
-    championTypes.slice(1).forEach(type => {
-        championRanks.forEach(rank => {
-            groupPoints += newState.inputs.champion_objectives.ascend_champions[`${type}_${rank}`] * awardPoints.ascend_champions[`${type}_${rank}`];
-        });
-    });
-    newState.points.champion_objectives.ascend_champions = groupPoints;
-    sectionPoints += groupPoints;
-
-    // upgrade skills
-    groupPoints = 0;
-    championTypes.forEach(type => {
-        groupPoints += newState.inputs.champion_objectives.upgrade_skills[type] * awardPoints.upgrade_skills[type];
-    });
-    newState.points.champion_objectives.upgrade_skills = groupPoints;
-    sectionPoints += groupPoints;
-
-    // great hall
-    groupPoints = 0;
-    for (let i=1; i<=10; i++) {
-        groupPoints += newState.inputs.champion_objectives.great_hall['level_'+i] * awardPoints.great_hall['level_'+i];
+    for (const section in initialState.points.subtotals) {
+        sectionPoints = 0;
+        for (const group in initialState.points[section]) {
+            groupPoints = 0;
+            for (const key in newState.inputs[section][group]) {
+                groupPoints += newState.inputs[section][group][key] * awardPoints[group][key];
+            }
+            newState.points[section][group] = groupPoints;
+            sectionPoints += groupPoints;
+        }
+        newState.points.subtotals[section] = sectionPoints;
+        totalPoints += sectionPoints;
     }
-    newState.points.champion_objectives.great_hall = groupPoints;
-    sectionPoints += groupPoints;
 
-    newState.points.subtotals.champion_objectives = sectionPoints;
-    totalPoints += sectionPoints;
-
-
-    // campaign objectives
-    sectionPoints = 0;
-
-    // beat stages
-    groupPoints = 0;
-    stageLevels.forEach(level => {
-        groupPoints += newState.inputs.campaign_objectives.beat_stages[level] * awardPoints.beat_stages[level];
-    });
-    newState.points.campaign_objectives.beat_stages = groupPoints;
-    sectionPoints += groupPoints;
-
-    newState.points.subtotals.campaign_objectives = sectionPoints;
-    totalPoints += sectionPoints;
-
-    // total
     newState.points.total = totalPoints;
 }
-
-const setObjectProperty = (object, path, value) => {
-    const parts = path.split('.');
-    const limit = parts.length - 1;
-    for (let i = 0; i < limit; ++i) {
-        const key = parts[i];
-        object = object[key] ?? (object[key] = { });
-    }
-    const key = parts[limit];
-    object[key] = value;
-};
 
 const initialState = {
     points: {
@@ -149,12 +79,44 @@ const initialState = {
             upgrade_skills: 0,
             great_hall: 0,
         },
-        campaign_objectives: {
-            beat_stages: 0,
+        stages_objectives: {
+            campaign_stages: 0,
+            potion_keep_stages: 0,
+            minotaur_stages: 0,
+            dragon_stages: 0,
+            ice_golem_stages: 0,
+            fire_knight_stages: 0,
+            spider_stages: 0,
+        },
+        faction_wars_objectives: {
+            faction_wars_stages: 0,
+        },
+        arena_objectives: {
+            classic_arena: 0,
+            tag_team_arena: 0,
+        },
+        clan_boss_objectives: {
+          clan_boss_chests: 0,
+        },
+        gear_objectives: {
+            use_glyphs: 0,
+            upgrade_artifacts: 0,
+        },
+        forge_objectives: {
+            craft_artifacts: 0,
+        },
+        misc_objectives: {
+            use_gems: 0,
         },
         subtotals: {
             champion_objectives: 0,
-            campaign_objectives: 0,
+            stages_objectives: 0,
+            faction_wars_objectives: 0,
+            arena_objectives: 0,
+            clan_boss_objectives: 0,
+            gear_objectives: 0,
+            forge_objectives: 0,
+            misc_objectives: 0,
         },
         total: 0,
     },
@@ -235,13 +197,141 @@ const initialState = {
                 level_10: 0,
             },
         },
-        campaign_objectives: {
-            beat_stages: {
+        stages_objectives: {
+            campaign_stages: {
                 normal: 0,
                 hard: 0,
                 brutal: 0,
                 nightmare: 0,
+            },
+            potion_keep_stages: {
+                stage_1_5: 0,
+                stage_6_10: 0,
+                stage_11_15: 0,
+                stage_16_20: 0,
+            },
+            minotaur_stages: {
+                stage_1_5: 0,
+                stage_6_10: 0,
+                stage_11_15: 0,
+            },
+            dragon_stages: {
+                stage_1_5: 0,
+                stage_6_10: 0,
+                stage_11_15: 0,
+                stage_16_19: 0,
+                stage_20_24: 0,
+                stage_25: 0,
+            },
+            ice_golem_stages: {
+                stage_1_5: 0,
+                stage_6_10: 0,
+                stage_11_15: 0,
+                stage_16_19: 0,
+                stage_20_24: 0,
+                stage_25: 0,
+            },
+            fire_knight_stages: {
+                stage_1_5: 0,
+                stage_6_10: 0,
+                stage_11_15: 0,
+                stage_16_19: 0,
+                stage_20_24: 0,
+                stage_25: 0,
+            },
+            spider_stages: {
+                stage_1_5: 0,
+                stage_6_10: 0,
+                stage_11_15: 0,
+                stage_16_19: 0,
+                stage_20_24: 0,
+                stage_25: 0,
+            },
+        },
+        faction_wars_objectives: {
+            faction_wars_stages: {
+                stage_1_5: 0,
+                stage_6_10: 0,
+                stage_11_15: 0,
+                stage_16_20: 0,
+                stage_21: 0,
+            },
+        },
+        arena_objectives: {
+            classic_arena: {
+                bronze_medal: 0,
+                silver_medal: 0,
+                gold_medal: 0,
+            },
+            tag_team_arena: {
+                gold_bars: 0,
+            },
+        },
+        clan_boss_objectives: {
+            clan_boss_chests: {
+                novice: 0,
+                adept: 0,
+                warrior: 0,
+                knight: 0,
+                guardian: 0,
+                master: 0,
+                grandmaster: 0,
+                ultimate: 0,
+                mythical: 0,
+                divine: 0,
+                celestial: 0,
+                transcendent: 0,
+            },
+        },
+        gear_objectives: {
+            use_glyphs: {
+                rank_1: 0,
+                rank_2: 0,
+                rank_3: 0,
+                rank_4: 0,
+                rank_5: 0,
+                rank_6: 0,
+            },
+            upgrade_artifacts: {
+                rank_1_3_level_4: 0,
+                rank_1_3_level_8: 0,
+                rank_1_3_level_12: 0,
+                rank_1_3_level_16: 0,
+                rank_4_5_level_4: 0,
+                rank_4_5_level_8: 0,
+                rank_4_5_level_12: 0,
+                rank_4_5_level_16: 0,
+                rank_6_level_4: 0,
+                rank_6_level_8: 0,
+                rank_6_level_12: 0,
+                rank_6_level_16: 0,
+            },
+        },
+        forge_objectives: {
+            craft_artifacts: {
+                rare_rank_3: 0,
+                rare_rank_4: 0,
+                rare_rank_5: 0,
+                rare_rank_6: 0,
+                epic_rank_3: 0,
+                epic_rank_4: 0,
+                epic_rank_5: 0,
+                epic_rank_6: 0,
+                legendary_rank_3: 0,
+                legendary_rank_4: 0,
+                legendary_rank_5: 0,
+                legendary_rank_6: 0,
+            },
+        },
+        misc_objectives: {
+            use_gems: {
+                gem: 0,
             }
+        },
+    },
+    layout: {
+        accordion_items_collapsed: {
+            //
         },
     },
 }
@@ -249,18 +339,18 @@ const initialState = {
 
 let loadedState = {};
 if (localStorageAvailable) {
-    const val = localStorage.getItem('calculator-state');
+    const val = localStorage.getItem(storageKey);
     if (val) {
         loadedState = JSON.parse(val);
     }
     console.log('loadedState', loadedState);
 }
 
-const startState = {...initialState, ...loadedState};
-//const startState = {...loadedState};
+// deep cloning
+const startState = {...clone(initialState), ...loadedState};
 
-// prepareStateUpdateWithPath
-export const prepareUpdate = (prefix, updateState) => {
+
+export const prepareStateUpdateWithPath = (prefix, updateState) => {
     return (name, value) => {
         //console.log('call updateState', prefix, name, value);
         updateState({ path: prefix + name, value });
@@ -271,7 +361,6 @@ export const prepareUpdate = (prefix, updateState) => {
 
 export function AppProvider({ children }) {
     const [state, updateState] = useReducer(reducer, startState);
-
     return html`
         <${AppContext.Provider} value=${{ state, updateState }}>
             ${children}
@@ -280,7 +369,7 @@ export function AppProvider({ children }) {
 }
 
 
-
+// https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
 function storageAvailable(type) {
     let storage;
     try {
@@ -305,6 +394,18 @@ function storageAvailable(type) {
             (storage && storage.length !== 0);
     }
 }
+
+// https://dirask.com/posts/JavaScript-set-object-property-by-path-DNKXOp
+const setObjectProperty = (object, path, value) => {
+    const parts = path.split('.');
+    const limit = parts.length - 1;
+    for (let i = 0; i < limit; ++i) {
+        const key = parts[i];
+        object = object[key] ?? (object[key] = { });
+    }
+    const key = parts[limit];
+    object[key] = value;
+};
 
 // https://github.com/angus-c/just/blob/master/packages/collection-clone/index.js
 function clone(obj) {

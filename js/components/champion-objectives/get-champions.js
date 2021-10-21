@@ -1,10 +1,10 @@
 import { html, useContext } from '../../imports.js';
-import { AppContext, prepareUpdate } from '../../app-context.js';
+import { AppContext, prepareStateUpdateWithPath } from '../../app-context.js';
 import NumberInput from '../number-input.js';
 
 export default function getChampions() {
     const { state, updateState } = useContext(AppContext);
-    const setNewValue = prepareUpdate('inputs.champion_objectives.get_champions.', updateState);
+    const setNewValue = prepareStateUpdateWithPath('inputs.champion_objectives.get_champions.', updateState);
     const local = state.inputs.champion_objectives.get_champions;
     const points = new Intl.NumberFormat().format(state.points.champion_objectives.get_champions);
     return html`

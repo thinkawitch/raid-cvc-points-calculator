@@ -1,10 +1,13 @@
-import { html, useState } from '../imports.js';
+import { html, useState, useContext } from '../imports.js';
+import { AppContext } from '../app-context.js';
 
 export default function accordionItem({ id, title, counter, children }) {
-    // own state and handler for future state recover from localstore
-    const [collapsed, setCollapsed] = useState(false);
+    // local state not synchronized with appContext, suits this logic - but remember
+    const { state, updateState } = useContext(AppContext);
+    const [ collapsed, setCollapsed ] = useState(state.layout.accordion_items_collapsed[id]);
     const toggle = () => {
         setCollapsed(!collapsed);
+        updateState({ path: 'layout.accordion_items_collapsed.'+id, value: !collapsed });
     }
     const idHeader = id + '-header';
     const idBody = id + '-body'
@@ -13,7 +16,7 @@ export default function accordionItem({ id, title, counter, children }) {
     const bodyClass = collapsed ? '' : 'show';
 
     return html`
-        <h2 class="accordion-header" id=${idHeader}>
+        <h2 class="accordion-header accordion-header-sticky" id=${idHeader}>
             <button class="accordion-button ${btnClass} fs-5" type="button" onClick=${toggle} aria-expanded=${ariaExpanded} aria-controls=${idBody}>
                 <div class="d-flex flex-grow-1 align-items-center">
                     <div class="flex-grow-1">${title}</div>

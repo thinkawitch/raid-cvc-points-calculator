@@ -6,13 +6,11 @@ export default function header() {
     const points = new Intl.NumberFormat().format(state.points.total);
     const clear = () => updateState({ clear: true });
     return html`
-        <header class="position-sticky top-0 mb-2">
-            <h1 class="d-flex align-items-center">Raid CvC points calculator <span class="fs-4 ms-2">⚔</span></h1>
-            <div class="d-flex flex-row align-items-center">
-                <span>Total points:</span>
-                <span class="fs-2 ms-2" id="total-points">${points}</span>
-                <button class="btn btn-secondary btn-sm ms-auto" onClick=${clear}>clear</button>
-            </div>
-        </header>
+        <h1 class="d-flex align-items-center">Raid CvC points calculator <span class="fs-4 ms-2">⚔</span></h1>
+        <div class="d-flex flex-row align-items-center">
+            <span>Total points:</span>
+            <span class="fs-3 ms-2" id="total-points">${points}</span>
+            <button class="btn btn-secondary btn-sm ms-auto" onClick=${clear}>clear</button>
+        </div>
     `;
 }

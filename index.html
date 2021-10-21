@@ -11,19 +11,36 @@
             touch-action: pan-x pan-y;
             height: 100vh;
         }
+        body {
+            overflow-y: scroll;
+        }
         header {
             background-color: white;
             border-bottom: 1px solid var(--bs-gray-400);
             z-index: 5;  /* accordion overlaps */
         }
+        .accordion-header-sticky {
+            position: sticky;
+            top: 4.9rem;
+            z-index: 4;
+        }
+        /* hide type=number arrows */
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
     </style>
 </head>
 <body>
-
 <div class="container-md" id="the-calculator">
-
+    <p class="mt-3 pb-3 small">Calculate the points in "Clan vs Clan" (CvC) battle for Raid: Shadow Legends.</p>
 </div>
-
 <script type="module">
     import { renderCalculator } from './js/app-render.js';
     renderCalculator(document.getElementById('the-calculator'));

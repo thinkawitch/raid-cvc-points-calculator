@@ -1,14 +1,14 @@
 import { html, useContext } from '../../imports.js';
-import { AppContext, prepareUpdate } from '../../app-context.js';
+import { AppContext, prepareStateUpdateWithPath } from '../../app-context.js';
 import NumberInput from '../number-input.js';
 
 export default function ascendChampions() {
     const { state, updateState } = useContext(AppContext);
-    const setNewValue = prepareUpdate('inputs.champion_objectives.ascend_champions.', updateState);
+    const setNewValue = prepareStateUpdateWithPath('inputs.champion_objectives.ascend_champions.', updateState);
     const local = state.inputs.champion_objectives.ascend_champions;
     const points = new Intl.NumberFormat().format(state.points.champion_objectives.ascend_champions);
     return html`
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center mt-3">
             <h4 class="flex-grow-1 m-0">Ascend champions</h4>
             <span class="fs-5">${points}</span>
         </div>
