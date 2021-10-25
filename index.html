@@ -10,6 +10,8 @@
             /* disable zoom */
             touch-action: pan-x pan-y;
             height: 100vh;
+            /* height same logic as in bootstrap h1 */
+            --header-height: calc(5rem + 1.5vw);
         }
         body {
             overflow-y: scroll;
@@ -18,10 +20,11 @@
             background-color: white;
             border-bottom: 1px solid var(--bs-gray-400);
             z-index: 5;  /* accordion overlaps */
+            height: var(--header-height);
         }
         .accordion-header-sticky {
             position: sticky;
-            top: 4.9rem;
+            top: var(--header-height);
             z-index: 4;
         }
         /* hide type=number arrows */

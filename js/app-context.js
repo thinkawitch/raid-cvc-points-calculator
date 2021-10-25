@@ -10,10 +10,10 @@ export const AppContext = createContext();
 
 const localStorageAvailable = storageAvailable('localStorage');
 
-const reducer = (state, pair) => {
+const reducer = (state, action) => {
     //console.log('pair', pair)
-    if (!pair || !(pair.path || pair.clear))  {
-        console.warn('reducer unknown pair', pair);
+    if (!action || !(action.path || action.clear))  {
+        console.warn('reducer unknown action', action);
         // do nothing if update have no specific data
         return state;
     }
@@ -21,15 +21,15 @@ const reducer = (state, pair) => {
     let newState;
 
     // update one property by full path
-    if (pair.path) {
+    if (action.path) {
         //console.log('action set by path')
         newState = {...state};
-        setObjectProperty(newState, pair.path, pair.value);
+        setObjectProperty(newState, action.path, action.value);
         calculatePoints(newState);
     }
 
     // reset to default
-    if (pair.clear) {
+    if (action.clear) {
         //console.log('action clear')
         if (localStorageAvailable) {
             localStorage.clear(); // clear all data, delete obsolete states too
@@ -356,8 +356,6 @@ export const prepareStateUpdateWithPath = (prefix, updateState) => {
         updateState({ path: prefix + name, value });
     }
 }
-
-
 
 export function AppProvider({ children }) {
     const [state, updateState] = useReducer(reducer, startState);
