@@ -17,13 +17,15 @@ export default function clanBossChests() {
                 <${NumberInput} id="f-cb-chest-novice" name="novice" label="novice" value=${local.novice} update=${setNewValue} />
                 <${NumberInput} id="f-cb-chest-adept" name="adept" label="adept" value=${local.adept} update=${setNewValue} />
                 <${NumberInput} id="f-cb-chest-warrior" name="warrior" label="warrior" value=${local.warrior} update=${setNewValue} />
-                <${NumberInput} id="f-cb-chest-knight" name="knight" label="knight" value=${local.knight} update=${setNewValue} />
-                <${NumberInput} id="f-cb-chest-guardian" name="guardian" label="guardian" value=${local.guardian} update=${setNewValue} />
-                <${NumberInput} id="f-cb-chest-master" name="master" label="master" value=${local.master} update=${setNewValue} />
-                <${NumberInput} id="f-cb-chest-grandmaster" name="grandmaster" label="grandmaster" value=${local.grandmaster} update=${setNewValue} />
+                <${NumberInput} id="f-cb-chest-knight" name="knight" label="knight (cb2)" value=${local.knight} update=${setNewValue} />
             </div>
             <div class="col-md-6">
-                <${NumberInput} id="f-cb-chest-ultimate" name="ultimate" label="ultimate" value=${local.ultimate} update=${setNewValue} />
+                <${NumberInput} id="f-cb-chest-guardian" name="guardian" label="guardian (cb3)" value=${local.guardian} update=${setNewValue} />
+                <${NumberInput} id="f-cb-chest-master" name="master" label="master" value=${local.master} update=${setNewValue} />
+                <${NumberInput} id="f-cb-chest-grandmaster" name="grandmaster" label="grandmaster (cb4)" value=${local.grandmaster} update=${setNewValue} />
+                <${NumberInput} id="f-cb-chest-ultimate" name="ultimate" label="ultimate (cb5)" value=${local.ultimate} update=${setNewValue} />
+            </div>
+            <div class="col-md-6">
                 <${NumberInput} id="f-cb-chest-mythical" name="mythical" label="mythical" value=${local.mythical} update=${setNewValue} />
                 <${NumberInput} id="f-cb-chest-divine" name="divine" label="divine" value=${local.divine} update=${setNewValue} />
                 <${NumberInput} id="f-cb-chest-celestial" name="celestial" label="celestial" value=${local.celestial} update=${setNewValue} />

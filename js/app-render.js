@@ -42,14 +42,15 @@ function App() {
 
 function Main() {
     const { state } = useContext(AppContext);
-    const pointsChampions = new Intl.NumberFormat().format(state.points.subtotals.champion_objectives);
-    const pointsStages = new Intl.NumberFormat().format(state.points.subtotals.stages_objectives);
-    const pointsFactionWars = new Intl.NumberFormat().format(state.points.subtotals.faction_wars_objectives);
-    const pointsArena = new Intl.NumberFormat().format(state.points.subtotals.arena_objectives);
-    const pointsClanBoss = new Intl.NumberFormat().format(0);
-    const pointsGearObjectives = new Intl.NumberFormat().format(state.points.subtotals.gear_objectives);
-    const pointsForgeObjectives = new Intl.NumberFormat().format(state.points.subtotals.forge_objectives);
-    const pointsMiscObjectives = new Intl.NumberFormat().format(state.points.subtotals.misc_objectives);
+    const nf = new Intl.NumberFormat();
+    const pointsChampions = nf.format(state.points.subtotals.champion_objectives);
+    const pointsStages = nf.format(state.points.subtotals.stages_objectives);
+    const pointsFactionWars = nf.format(state.points.subtotals.faction_wars_objectives);
+    const pointsArena = nf.format(state.points.subtotals.arena_objectives);
+    const pointsClanBoss = nf.format(state.points.subtotals.clan_boss_objectives);
+    const pointsGearObjectives = nf.format(state.points.subtotals.gear_objectives);
+    const pointsForgeObjectives = nf.format(state.points.subtotals.forge_objectives);
+    const pointsMiscObjectives = nf.format(state.points.subtotals.misc_objectives);
     return html`
         <div class="accordion">
             <div class="accordion-item">
