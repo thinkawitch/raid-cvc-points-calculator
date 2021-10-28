@@ -24,6 +24,7 @@ import UseGlyphs from './components/gear-objectives/use-glyphs.js';
 import UpgradeArtifacts from './components/gear-objectives/upgrade-artifacts.js';
 import CraftArtifacts from './components/forge-objectives/craft-artifacts.js';
 import UseGems from './components/misc-objectives/use-gems.js';
+import PlansResources from './components/scenarios/plans-resources.js';
 
 
 function App() {
@@ -32,7 +33,7 @@ function App() {
             <header class="position-sticky top-0">
                 <${Header} />
             </header>
-            <main class="">
+            <main>
                 <${Main} />
             </main>
         <//>
@@ -53,6 +54,11 @@ function Main() {
     const pointsMiscObjectives = nf.format(state.points.subtotals.misc_objectives);
     return html`
         <div class="accordion">
+            <div class="accordion-item">
+                <${AccordionItem} id="accordion-item-scenarios" title="Scenarios">
+                    <${PlansResources} />
+                <//>
+            </div>
             <div class="accordion-item">
                 <${AccordionItem} id="accordion-item-1" title="Champion objectives" counter=${pointsChampions}>
                     <div class="row">
@@ -116,7 +122,7 @@ function Main() {
                 <//>
             </div>
             <div class="accordion-item">
-                <${AccordionItem} id="accordion-item-4" title="Faction wars" counter=${pointsFactionWars}>
+                <${AccordionItem} id="accordion-item-3" title="Faction wars" counter=${pointsFactionWars}>
                     <div class="row">
                         <div class="col-md-6">
                             <${FactionWarsStages} />
@@ -128,7 +134,7 @@ function Main() {
                 <//>
             </div>
             <div class="accordion-item">
-                <${AccordionItem} id="accordion-item-5" title="Arena" counter=${pointsArena}>
+                <${AccordionItem} id="accordion-item-4" title="Arena" counter=${pointsArena}>
                     <div class="row">
                         <div class="col-md-6">
                             <${ClassicArenaMedals} />
@@ -140,12 +146,12 @@ function Main() {
                 <//>
             </div>
             <div class="accordion-item">
-                <${AccordionItem} id="accordion-item-6" title="Clan boss" counter=${pointsClanBoss}>
+                <${AccordionItem} id="accordion-item-5" title="Clan boss" counter=${pointsClanBoss}>
                     <${ClanBossChests} />
                 <//>
             </div>
             <div class="accordion-item">
-                <${AccordionItem} id="accordion-item-7" title="Gear objectives" counter=${pointsGearObjectives}>
+                <${AccordionItem} id="accordion-item-6" title="Gear objectives" counter=${pointsGearObjectives}>
                     <div class="row">
                         <div class="col-md-6">
                             <${UseGlyphs} />
@@ -155,12 +161,12 @@ function Main() {
                 <//>
             </div>
             <div class="accordion-item">
-                <${AccordionItem} id="accordion-item-8" title="Forge objectives" counter=${pointsForgeObjectives}>
+                <${AccordionItem} id="accordion-item-7" title="Forge objectives" counter=${pointsForgeObjectives}>
                     <${CraftArtifacts} />
                 <//>
             </div>
             <div class="accordion-item">
-                <${AccordionItem} id="accordion-item-9" title="Misc objectives" counter=${pointsMiscObjectives}>
+                <${AccordionItem} id="accordion-item-8" title="Misc objectives" counter=${pointsMiscObjectives}>
                     <div class="row">
                         <div class="col-md-6">
                             <${UseGems} />

@@ -1,5 +1,5 @@
 
-const storageKey = 'calculator-state-v0'; // update before publishing new version
+const storageKey = 'calculator-state-v1'; // update before publishing new version
 
 const awardPoints = {
     get_champions: {
@@ -211,6 +211,19 @@ const clanBossChests = [
 ];
 
 
+const beatStagesToLevelUp = {
+    brutal_12_3: {
+
+    },
+    brutal_12_6: {
+        rank_1: 3,
+        rank_2: 10,
+        rank_3: 22,
+        rank_4: 52,
+    },
+}
+
+
 export {
     storageKey,
     awardPoints,
@@ -221,4 +234,5 @@ export {
     stagesIntervalsDungeonBosses,
     stagesIntervalsFactionWars,
     clanBossChests,
+    beatStagesToLevelUp,
 };

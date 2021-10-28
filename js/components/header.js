@@ -11,8 +11,8 @@ export default function header() {
             <span class="fs-4 ms-2">⚔</span>
         </h1>
         <div class="d-flex flex-row align-items-center">
-            <span>Total points:</span>
-            <span class="fs-3 ms-2" id="total-points">${points}</span>
+            <span class="flex-shrink-0">Total points:</span>
+            <span class="fs-3 ms-2 text-truncate" id="total-points">${points}</span>
             <button class="btn btn-secondary btn-sm ms-auto" onClick=${clear}>clear</button>
         </div>
     `;

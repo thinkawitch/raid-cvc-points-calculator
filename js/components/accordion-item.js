@@ -14,13 +14,14 @@ export default function accordionItem({ id, title, counter, children }) {
     const ariaExpanded = collapsed ? 'false' : 'true';
     const btnClass = collapsed ? 'collapsed' : ''
     const bodyClass = collapsed ? '' : 'show';
+    const showCounter = counter !== undefined;
 
     return html`
         <h2 class="accordion-header accordion-header-sticky" id=${idHeader}>
             <button class="accordion-button ${btnClass} fs-5" type="button" onClick=${toggle} aria-expanded=${ariaExpanded} aria-controls=${idBody}>
                 <div class="d-flex flex-grow-1 align-items-center">
                     <div class="flex-grow-1">${title}</div>
-                    <span class="me-3">${counter}</span>
+                    ${showCounter && html`<span class="me-3">${counter}</span>`}
                 </div>
             </button>
         </h2>
