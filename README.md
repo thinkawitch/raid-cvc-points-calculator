@@ -1,6 +1,11 @@
 # Raid CvC points calculator :crossed_swords:
 
-The calculator for "Raid: Shadow Legends" game. 
+The calculator for "Raid: Shadow Legends" game.
+
+---
+
+[![Raid CvC points calculator](images/cvc-calculator.png)](https://thinkawitch.github.io/raid-cvc-points-calcucator/)
+
 
 [Click here to open the calculator](https://thinkawitch.github.io/raid-cvc-points-calcucator/)
 
