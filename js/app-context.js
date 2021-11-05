@@ -1,8 +1,13 @@
 import { html, createContext, useReducer } from './imports.js';
+import clone from './helpers/clone.js';
+import actionUpdatePropertyByPath from './app-context/actions/update-by-path.js';
+import actionR5ChickensPrepare from './app-context/actions/r5-chickens-prepare.js';
+import actionR5ChickensToPoints from './app-context/actions/r5-chickens-to-points.js';
+import actionBrewPrepare from './app-context/actions/brew-prepare.js';
+import actionBrewToPoints from './app-context/actions/brew-to-points.js';
 import {
     storageKey,
     awardPoints,
-    beatStagesToLevelUp,
 } from './config.js';
 
 export const AppContext = createContext();
@@ -11,60 +16,57 @@ export const AppContext = createContext();
 
 const localStorageAvailable = storageAvailable('localStorage');
 
-const allowedActions = ['path', 'clear', 'prepare_r5_chickens', 'append_chickens_to_points'];
-
-function isActionAllowed(action) {
-    if (!action) return false;
-    return allowedActions.some(name => action.hasOwnProperty(name));
-}
-
 const reducer = (state, action) => {
     //console.log('reducer action', action)
-    if (!isActionAllowed(action)) {
-        console.warn('reducer unknown action', action);
-        return state;
-    }
-
     let newState = state; // get old one - just in case
+    let updated = true;
 
-    // update one property by full path
-    if (action.path) {
-        //console.log('action set by path')
-        newState = clone(state);
-        setObjectProperty(newState, action.path, action.value);
-        calculatePoints(newState);
-    }
-
-    // reset to default
-    if (action.clear) {
-        //console.log('action clear')
-        if (localStorageAvailable) {
-            localStorage.clear(); // clear all data, delete obsolete states too
-        }
-        newState = clone(initialState); // deep cloning, may be replace with func returning the initial state
-        newState.layout = clone(state.layout); // keep layout
-    }
-
-    // prepare r5 chickens
-    if (action.prepare_r5_chickens) {
-        //console.log('action prepare_r5_chickens');
-        newState = clone(state);
-        let r5 = parseInt(action.value) || 0;
-        if (r5 < 0) r5 = 0;
-        if (r5 > 99) r5 = 99;
-        newState.inputs.plans_resources.prepare_r5_chickens = r5;
-        prepareR5Chickens(newState);
-    }
-
-    if (action.append_chickens_to_points) {
-        //console.log('action append_chickens_to_points');
-        newState = clone(state);
-        appendChickensLevelUpsToPoints(newState, action.value);
-        calculatePoints(newState);
+    switch (action.type) {
+        // update one property by full path
+        case 'update_by_path':
+            newState = clone(state);
+            actionUpdatePropertyByPath(newState, action.path, action.value);
+            calculatePoints(newState);
+            break;
+        // reset to default
+        case 'clear':
+            if (localStorageAvailable) {
+                localStorage.clear(); // clear all data, delete obsolete states too
+            }
+            newState = clone(initialState); // deep cloning, may be replace with func returning the initial state
+            newState.layout = clone(state.layout); // keep layout
+            break;
+        // prepare r5 chickens
+        case 'r5_chickens_prepare':
+            newState = clone(state);
+            let r5 = parseInt(action.value) || 0;
+            if (r5 < 0) r5 = 0;
+            if (r5 > 99) r5 = 99;
+            newState.inputs.scenarios.prepare_r5_chickens = r5;
+            actionR5ChickensPrepare(newState);
+            break;
+        // append chickens to points
+        case 'r5_chickens_to_points':
+            newState = clone(state);
+            actionR5ChickensToPoints(newState, action.value);
+            calculatePoints(newState);
+            break;
+        case 'brew_prepare':
+            newState = clone(state);
+            newState.inputs.scenarios.drink_brew = parseInt(action.value) || 0;
+            actionBrewPrepare(newState);
+            break;
+        case 'brew_to_points':
+            newState = clone(state);
+            actionBrewToPoints(newState, action.value);
+            calculatePoints(newState);
+            break;
+        default:
+            updated = false;
     }
 
     // save to storage
-    if (localStorageAvailable) {
+    if (updated && localStorageAvailable) {
         localStorage.setItem(storageKey, JSON.stringify(newState));
     }
 
@@ -93,272 +95,6 @@ function calculatePoints(newState) {
     newState.points.total = totalPoints;
 }
 
-function prepareR5Chickens(newState) {
-    const targetR5 = parseInt(newState.inputs.plans_resources.prepare_r5_chickens) || 0;
-    const stateNode = newState.plans_resources.prepare_r5_chickens;
-    const energyNormal = 4;
-    const energyHard = 6;
-    const energyBrutal = 8;
-    const energyToBeatStage = energyBrutal;
-    const countBeatStages = beatStagesToLevelUp.brutal_12_6;
-
-    let energy, energy_r1_10, energy_r2_20, energy_r3_30, energy_r4_40;
-    let r1_10 = 0, r1_1 = 0,
-        r2_20 = 0, r2_1 = 0,
-        r3_30 = 0, r3_1 = 0,
-        r4_40 = 0, r4_1 = 0;
-    let points_1_min = 0, points_1_max = 0,
-        points_2_min = 0, points_2_max = 0,
-        points_3_min = 0, points_3_max = 0,
-        points_4_min = 0, points_4_max = 0;
-
-    r4_40 = targetR5;
-    r4_1 = r4_40 * 4;
-
-    r3_30 = r4_40 + r4_1;
-    r3_1 = r3_30 * 3;
-
-    r2_20 = r3_30 + r3_1;
-    r2_1 = r2_20 * 2;
-
-    r1_10 = r2_20 + r2_1;
-    r1_1 = r1_10 * 1;
-
-    /*console.log('r3_30', 12, getPacksToLevelUp(12) );
-    console.log('r3_30', 13, getPacksToLevelUp(13) );
-    console.log('r3_30', 11, getPacksToLevelUp(11) );*/
-
-    energy_r1_10 = getPacksToLevelUp(r1_10) * energyToBeatStage * countBeatStages.rank_1;
-    energy_r2_20 = getPacksToLevelUp(r2_20) * energyToBeatStage * countBeatStages.rank_2;
-    energy_r3_30 = getPacksToLevelUp(r3_30) * energyToBeatStage * countBeatStages.rank_3;
-    energy_r4_40 = getPacksToLevelUp(r4_40) * energyToBeatStage * countBeatStages.rank_4;
-
-    energy = energy_r1_10 + energy_r2_20 + energy_r3_30 + energy_r4_40;
-
-    stateNode.energy = energy;
-    stateNode.energy_r1_10 = energy_r1_10;
-    stateNode.energy_r2_20 = energy_r2_20;
-    stateNode.energy_r3_30 = energy_r3_30;
-    stateNode.energy_r4_40 = energy_r4_40;
-
-    stateNode.r1_1 = r1_1;
-    stateNode.r1_10 = r1_10;
-    stateNode.r2_1 = r2_1;
-    stateNode.r2_20 = r2_20;
-    stateNode.r3_1 = r3_1;
-    stateNode.r3_30 = r3_30;
-    stateNode.r4_1 = r4_1;
-    stateNode.r4_40 = r4_40;
-
-    points_1_min = r1_10 * 10 * awardPoints.upgrade_levels.rank_1
-        + getPacksToLevelUp(r1_10) * countBeatStages.rank_1 * awardPoints.campaign_stages.brutal;
-    points_1_max = points_1_min
-        + r1_10 * awardPoints.get_champions.common
-        + r1_10 * awardPoints.upgrade_ranks.rank_2
-        + r1_1 * awardPoints.get_champions.common;
-
-    points_2_min = r2_20 * 20 * awardPoints.upgrade_levels.rank_2
-        + getPacksToLevelUp(r2_20) * countBeatStages.rank_2 * awardPoints.campaign_stages.brutal;
-    points_2_max = points_2_min
-        + r2_20 * awardPoints.get_champions.uncommon
-        + r2_20 * awardPoints.upgrade_ranks.rank_3
-        + r2_1 * awardPoints.get_champions.uncommon;
-
-    points_3_min = r3_30 * 30 * awardPoints.upgrade_levels.rank_3
-        + getPacksToLevelUp(r3_30) * countBeatStages.rank_3 * awardPoints.campaign_stages.brutal;
-    points_3_max = points_3_min
-        + r3_30 * awardPoints.get_champions.rare
-        + r3_30 * awardPoints.upgrade_ranks.rank_4
-        + r3_1 * awardPoints.get_champions.rare;
-
-    points_4_min = r4_40 * 40 * awardPoints.upgrade_levels.rank_4
-        + getPacksToLevelUp(r4_40) * countBeatStages.rank_4 * awardPoints.campaign_stages.brutal;
-    points_4_max = points_4_min
-        + r4_40 * awardPoints.get_champions.epic
-        + r4_40 * awardPoints.upgrade_ranks.rank_5
-        + r4_1 * awardPoints.get_champions.epic;
-
-    stateNode.points_1_min = points_1_min;
-    stateNode.points_1_max = points_1_max;
-    stateNode.points_2_min = points_2_min;
-    stateNode.points_2_max = points_2_max;
-    stateNode.points_3_min = points_3_min;
-    stateNode.points_3_max = points_3_max;
-    stateNode.points_4_min = points_4_min;
-    stateNode.points_4_max = points_4_max;
-}
-
-function appendChickensLevelUpsToPoints(newState, appendType) {
-    //console.log('appendChickensLevelUpsToPoints', appendType)
-    const stateNode = newState.plans_resources.prepare_r5_chickens;
-    const countBeatStages = beatStagesToLevelUp.brutal_12_6;
-
-    const cfgToAppend = {
-        rank_1: {
-            champs_up: 'r1_10',
-            champs_food: 'r1_1',
-            get_type: 'common',
-            levels_up: 10,
-            upgrade_to: 'rank_2',
-        },
-        rank_2: {
-            champs_up: 'r2_20',
-            champs_food: 'r2_1',
-            get_type: 'uncommon',
-            levels_up: 20,
-            upgrade_to: 'rank_3',
-        },
-        rank_3: {
-            champs_up: 'r3_30',
-            champs_food: 'r3_1',
-            get_type: 'rare',
-            levels_up: 30,
-            upgrade_to: 'rank_4',
-        },
-        rank_4: {
-            champs_up: 'r4_40',
-            champs_food: 'r4_1',
-            get_type: 'epic',
-            levels_up: 40,
-            upgrade_to: 'rank_5',
-        },
-    }
-
-    const doPlusMin = rankName => {
-        const cfg = cfgToAppend[rankName];
-        const champsUp = stateNode[cfg.champs_up];
-        if (champsUp) {
-            newState.inputs.champion_objectives.upgrade_levels[rankName] += champsUp * cfg.levels_up;
-            newState.inputs.stages_objectives.campaign_stages.brutal += getPacksToLevelUp(champsUp) * countBeatStages[rankName];
-        }
-    }
-    const doMinusMin = rankName => {
-        const cfg = cfgToAppend[rankName];
-        const champsUp = stateNode[cfg.champs_up];
-        if (champsUp) {
-            newState.inputs.champion_objectives.upgrade_levels[rankName] -= champsUp * cfg.levels_up;
-            newState.inputs.stages_objectives.campaign_stages.brutal -= getPacksToLevelUp(champsUp) * countBeatStages[rankName];
-        }
-    }
-    const doPlusMax = rankName => {
-        const cfg = cfgToAppend[rankName];
-        const champsUp = stateNode[cfg.champs_up];
-        const champsFood = stateNode[cfg.champs_food];
-        if (champsFood) {
-            newState.inputs.champion_objectives.get_champions[cfg.get_type] += champsFood;
-        }
-        if (champsUp) {
-            newState.inputs.champion_objectives.get_champions[cfg.get_type] += champsUp;
-            newState.inputs.champion_objectives.upgrade_ranks[cfg.upgrade_to] += champsUp;
-        }
-    }
-    const doMinusMax = rankName => {
-        const cfg = cfgToAppend[rankName];
-        const champsUp = stateNode[cfg.champs_up];
-        const champsFood = stateNode[cfg.champs_food];
-        if (champsFood) {
-            newState.inputs.champion_objectives.get_champions[cfg.get_type] -= champsFood;
-        }
-        if (champsUp) {
-            newState.inputs.champion_objectives.get_champions[cfg.get_type] -= champsUp;
-            newState.inputs.champion_objectives.upgrade_ranks[cfg.upgrade_to] -= champsUp;
-        }
-    }
-
-    const funcs = {
-        plus_r1_min: () => {
-            doPlusMin('rank_1');
-        },
-        minus_r1_min: () => {
-            doMinusMin('rank_1');
-        },
-        plus_r1_max: () => {
-            doPlusMin('rank_1');
-            doPlusMax('rank_1');
-        },
-        minus_r1_max: () => {
-            doMinusMin('rank_1');
-            doMinusMax('rank_1');
-        },
-        //
-        plus_r2_min: () => {
-            doPlusMin('rank_2');
-        },
-        minus_r2_min: () => {
-            doMinusMin('rank_2');
-        },
-        plus_r2_max: () => {
-            doPlusMin('rank_2');
-            doPlusMax('rank_2');
-        },
-        minus_r2_max: () => {
-            doMinusMin('rank_2');
-            doMinusMax('rank_2');
-        },
-        //
-        plus_r3_min: () => {
-            doPlusMin('rank_3');
-        },
-        minus_r3_min: () => {
-            doMinusMin('rank_3');
-        },
-        plus_r3_max: () => {
-            doPlusMin('rank_3');
-            doPlusMax('rank_3');
-        },
-        minus_r3_max: () => {
-            doMinusMin('rank_3');
-            doMinusMax('rank_3');
-        },
-        //
-        plus_r4_min: () => {
-            doPlusMin('rank_4');
-        },
-        minus_r4_min: () => {
-            doMinusMin('rank_4');
-        },
-        plus_r4_max: () => {
-            doPlusMin('rank_4');
-            doPlusMax('rank_4');
-        },
-        minus_r4_max: () => {
-            doMinusMin('rank_4');
-            doMinusMax('rank_4');
-        },
-    }
-    funcs[appendType]();
-
-
-    // fix negative values
-
-    const node1 = newState.inputs.champion_objectives;
-    const types1 = ['get_champions', 'upgrade_levels', 'upgrade_ranks'];
-    types1.forEach(type => {
-        for (const key in node1[type]) {
-            if (node1[type][key] < 0) {
-                node1[type][key] = 0;
-            }
-        }
-    });
-
-    const node2 = newState.inputs.stages_objectives;
-    const types2 = ['campaign_stages'];
-    types2.forEach(type => {
-        for (const key in node2[type]) {
-            if (node2[type][key] < 0) {
-                node2[type][key] = 0;
-            }
-        }
-    });
-}
-
-function getPacksToLevelUp(heroes) {
-    if (heroes <= 0) return 0;
-    if (heroes % 3 === 0)  return heroes / 3;
-
-    const ceiled = 3.0 * Math.ceil(heroes / 3.0);
-    return ceiled / 3;
-}
 
 const initialState = {
     points: {
@@ -618,13 +354,14 @@ const initialState = {
         misc_objectives: {
             use_gems: {
                 gem: 0,
-            }
+            },
         },
-        plans_resources: {
+        scenarios: {
             prepare_r5_chickens: 0,
+            drink_brew: 0,
         },
     },
-    plans_resources: {
+    scenarios: {
         prepare_r5_chickens: {
             energy: 0,
             energy_r1_10: 0,
@@ -652,6 +389,32 @@ const initialState = {
             points_4_min: 0,
             points_4_max: 0,
         },
+        drink_brew: {
+            r1_levels_min: 0,
+            r1_levels_max: 0,
+            r1_points_min: 0,
+            r1_points_max: 0,
+            r2_levels_min: 0,
+            r2_levels_max: 0,
+            r2_points_min: 0,
+            r2_points_max: 0,
+            r3_levels_min: 0,
+            r3_levels_max: 0,
+            r3_points_min: 0,
+            r3_points_max: 0,
+            r4_levels_min: 0,
+            r4_levels_max: 0,
+            r4_points_min: 0,
+            r4_points_max: 0,
+            r5_levels_min: 0,
+            r5_levels_max: 0,
+            r5_points_min: 0,
+            r5_points_max: 0,
+            r6_levels_min: 0,
+            r6_levels_max: 0,
+            r6_points_min: 0,
+            r6_points_max: 0,
+        },
     },
     layout: {
         accordion_items_collapsed: {
@@ -663,6 +426,10 @@ const initialState = {
             'accordion-item-6': true,
             'accordion-item-7': true,
             'accordion-item-8': true,
+        },
+        scenario_items_collapsed: {
+          'scenario-item-1': false,
+          'scenario-item-2': true,
         },
     },
 }
@@ -688,7 +455,7 @@ const startState = {...clone(initialState), ...loadedState};
 export const prepareStateUpdateWithPath = (prefix, updateState) => {
     return (name, value) => {
         //console.log('call updateState', prefix, name, value);
-        updateState({ path: prefix + name, value });
+        updateState({ type: 'update_by_path', path: prefix + name, value });
     }
 }
 
@@ -725,53 +492,5 @@ function storageAvailable(type) {
                 e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
             // acknowledge QuotaExceededError only if there's something already stored
             (storage && storage.length !== 0);
-    }
-}
-
-// https://dirask.com/posts/JavaScript-set-object-property-by-path-DNKXOp
-const setObjectProperty = (object, path, value) => {
-    const parts = path.split('.');
-    const limit = parts.length - 1;
-    for (let i = 0; i < limit; ++i) {
-        const key = parts[i];
-        object = object[key] ?? (object[key] = { });
-    }
-    const key = parts[limit];
-    object[key] = value;
-};
-
-// https://github.com/angus-c/just/blob/master/packages/collection-clone/index.js
-function clone(obj) {
-    if (typeof obj == 'function') {
-        return obj;
-    }
-    var result = Array.isArray(obj) ? [] : {};
-    for (var key in obj) {
-        // include prototype properties
-        var value = obj[key];
-        var type = {}.toString.call(value).slice(8, -1);
-        if (type == 'Array' || type == 'Object') {
-            result[key] = clone(value);
-        } else if (type == 'Date') {
-            result[key] = new Date(value.getTime());
-        } else if (type == 'RegExp') {
-            result[key] = RegExp(value.source, getRegExpFlags(value));
-        } else {
-            result[key] = value;
-        }
-    }
-    return result;
-}
-function getRegExpFlags(regExp) {
-    if (typeof regExp.source.flags == 'string') {
-        return regExp.source.flags;
-    } else {
-        var flags = [];
-        regExp.global && flags.push('g');
-        regExp.ignoreCase && flags.push('i');
-        regExp.multiline && flags.push('m');
-        regExp.sticky && flags.push('y');
-        regExp.unicode && flags.push('u');
-        return flags.join('');
     }
 }

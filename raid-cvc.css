@@ -1,0 +1,118 @@
+/*  Raid SL CvC points calculator styles, depend on bootstrap 5.1 */
+
+:root {
+    /* disable zoom */
+    touch-action: pan-x pan-y;
+    height: 100vh;
+    /* height same logic as in bootstrap h1 */
+    --header-height: calc(5rem + 1.5vw);
+    /*--width-full-on-narrow: 100%;*/
+}
+/*@media (min-width: 992px) {
+    :root {
+        --width-full-on-narrow: 750px;
+    }
+}*/
+body {
+    overflow-y: scroll; /* don't flick on expand/collapse */
+}
+header {
+    background-color: white;
+    border-bottom: 1px solid var(--bs-gray-400);
+    z-index: 5;  /* accordion overlaps */
+    height: var(--header-height);
+}
+.accordion-header-sticky {
+    position: sticky;
+    top: var(--header-height);
+    z-index: 4;
+}
+/* hide type=number arrows */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.table-get-r5-chicken, .table-drink-brew {
+    max-width: 700px;
+}
+
+/* extra small screens */
+@media (max-width: 340px) {
+    header {
+        padding: 0 0.5rem;
+    }
+
+    .container-md {
+        padding: 0;
+    }
+
+    .accordion-button {
+        padding: 0.75rem 0.5rem;
+    }
+
+    /* accordion inner */
+    .row {
+        --bs-gutter-x: 0.5rem;
+    }
+    .accordion-body {
+        padding: 0.5rem 0.7rem;
+    }
+}
+
+/* small screens */
+@media (max-width: 414px) {
+    /* https://stackoverflow.com/questions/55344983/make-flex-item-wrap-to-the-next-row-with-following-items-continuing-the-flow */
+    .table-get-r5-chicken tr {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    /* th */
+    .table-get-r5-chicken th {
+        flex: 0 0 50%;
+    }
+    .table-get-r5-chicken th:nth-child(1) {
+        order: -2;
+        flex-basis: 70%;
+    }
+    .table-get-r5-chicken th:nth-child(2) {
+        order: -1;
+        flex-basis: 30%;
+    }
+    .table-get-r5-chicken th:nth-of-type(3),
+    .table-get-r5-chicken th:nth-of-type(4) {
+        background-color: var(--bs-gray-200);
+        flex: 0 0 50%;
+    }
+    /* td */
+    .table-get-r5-chicken td {
+        flex: 0 0 25%;
+    }
+    .table-get-r5-chicken td:nth-child(1) {
+        order: -4;
+        flex-basis: 32%;
+    }
+    .table-get-r5-chicken td:nth-child(2) {
+        order: -3;
+        flex-basis: 10%;
+    }
+    .table-get-r5-chicken td:nth-child(3) {
+        order: -2;
+        flex-basis: 32%;
+    }
+    .table-get-r5-chicken td:nth-child(4) {
+        order: -1;
+    }
+    .table-get-r5-chicken td:nth-of-type(5),
+    .table-get-r5-chicken td:nth-of-type(6) {
+        background-color: var(--bs-gray-200);
+        flex: 0 0 50%;
+        border-bottom: 1px solid black;
+    }
+}

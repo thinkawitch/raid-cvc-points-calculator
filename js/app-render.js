@@ -2,6 +2,7 @@ import { html, render, useContext } from './imports.js';
 import { AppContext, AppProvider } from './app-context.js';
 import Header from './components/header.js';
 import AccordionItem from './components/accordion-item.js';
+import ScenarioItem from './components/scenario-item.js';
 import GetChampions from './components/champion-objectives/get-champions.js';
 import GetChampionsFirst from './components/champion-objectives/get-champions-first.js';
 import UpgradeLevels from './components/champion-objectives/upgrade-levels.js';
@@ -24,7 +25,8 @@ import UseGlyphs from './components/gear-objectives/use-glyphs.js';
 import UpgradeArtifacts from './components/gear-objectives/upgrade-artifacts.js';
 import CraftArtifacts from './components/forge-objectives/craft-artifacts.js';
 import UseGems from './components/misc-objectives/use-gems.js';
-import PlansResources from './components/scenarios/plans-resources.js';
+import PrepareChickens from './components/scenarios/prepare-chickens.js';
+import DrinkBrew from './components/scenarios/drink-brew.js';
 
 
 function App() {
@@ -56,7 +58,12 @@ function Main() {
         <div class="accordion">
             <div class="accordion-item">
                 <${AccordionItem} id="accordion-item-scenarios" title="Scenarios">
-                    <${PlansResources} />
+                    <${ScenarioItem} id="scenario-item-1" title="Level up">
+                        <${PrepareChickens} />    
+                    <//>
+                    <${ScenarioItem} id="scenario-item-2" title="Brew">
+                        <${DrinkBrew} />
+                    <//>
                 <//>
             </div>
             <div class="accordion-item">

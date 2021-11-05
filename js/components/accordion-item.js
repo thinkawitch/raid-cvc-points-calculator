@@ -7,7 +7,7 @@ export default function accordionItem({ id, title, counter, children }) {
     const [ collapsed, setCollapsed ] = useState(state.layout.accordion_items_collapsed[id]);
     const toggle = () => {
         setCollapsed(!collapsed);
-        updateState({ path: 'layout.accordion_items_collapsed.'+id, value: !collapsed });
+        updateState({ type: 'update_by_path', path: 'layout.accordion_items_collapsed.'+id, value: !collapsed });
     }
     const idHeader = id + '-header';
     const idBody = id + '-body'

@@ -1,5 +1,7 @@
 import { html } from '../imports.js';
 
+const handleFocus = event => event.target.select();
+
 export default function numberInput({id, name, label, value, update}) {
     const val = parseInt(value) || 0;
     return html`
@@ -10,7 +12,10 @@ export default function numberInput({id, name, label, value, update}) {
             <div class="col-5">
                 <div class="input-group">
                     <button type="button" class="btn btn-secondary" onClick=${() => update(name, val-1 > 0 ? val-1 : 0) }>-</button>
-                    <input type="number" class="form-control text-center" id=${id} min="0" value=${val} onInput=${e => update(name, e.target.value)} />
+                    <input type="number" class="form-control text-center" 
+                           id=${id} value=${val} min="0" 
+                           onInput=${e => update(name, e.target.value)}
+                           onFocus=${handleFocus} />
                     <button type="button" class="btn btn-secondary" onClick=${() => update(name, val+1) }>+</button>
                 </div>
             </div>

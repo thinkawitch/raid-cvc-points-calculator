@@ -4,7 +4,7 @@ import { AppContext } from '../app-context.js';
 export default function header() {
     const { state, updateState } = useContext(AppContext);
     const points = new Intl.NumberFormat().format(state.points.total);
-    const clear = () => updateState({ clear: true });
+    const clear = () => updateState({ type: 'clear' });
     return html`
         <h1 class="d-flex align-items-center">
             <span class="text-truncate">Raid CvC points calculator</span>
