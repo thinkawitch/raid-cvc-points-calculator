@@ -43,6 +43,21 @@ input[type=number] {
     max-width: 700px;
 }
 
+
+/* make space in center for "large" breakpoint */
+@media (min-width: 992px) {
+    .row-with-center-separator .col-md-6 {
+        width: 47%;
+    }
+    .row-with-center-separator .col-md-6:nth-child(odd) {
+        margin-right: 3%;
+    }
+    .row-with-center-separator .col-md-6:nth-child(even) {
+        margin-left: 3%;
+    }
+}
+
+
 /* extra small screens */
 @media (max-width: 340px) {
     header {

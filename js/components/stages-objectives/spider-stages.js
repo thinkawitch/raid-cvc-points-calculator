@@ -18,5 +18,7 @@ export default function beatSpiderStages() {
         <${NumberInput} id="f-spider-stage-16-19" name="stage_16_19" label="stages 16-19" value=${local.stage_16_19} update=${setNewValue} />
         <${NumberInput} id="f-spider-stage-20-24" name="stage_20_24" label="stages 20-24" value=${local.stage_20_24} update=${setNewValue} />
         <${NumberInput} id="f-spider-stage-25" name="stage_25" label="stage 25" value=${local.stage_25} update=${setNewValue} />
+        <${NumberInput} id="f-spider-stage-hard-1-9" name="stage_hard_1_9" label="hard 1-9" value=${local.stage_hard_1_9} update=${setNewValue} />
+        <${NumberInput} id="f-spider-stage-hard-10" name="stage_hard_10" label="hard 10" value=${local.stage_hard_10} update=${setNewValue} />
     `;
 }

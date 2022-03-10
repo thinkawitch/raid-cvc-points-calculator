@@ -12,7 +12,7 @@ export default function clanBossChests() {
             <h4 class="flex-grow-1 m-0">Clan boss chests</h4>
             <span class="fs-5">${points}</span>
         </div>
-        <div class="row">
+        <div class="row row-with-center-separator">
             <div class="col-md-6">
                 <${NumberInput} id="f-cb-chest-novice" name="novice" label="novice" value=${local.novice} update=${setNewValue} />
                 <${NumberInput} id="f-cb-chest-adept" name="adept" label="adept" value=${local.adept} update=${setNewValue} />

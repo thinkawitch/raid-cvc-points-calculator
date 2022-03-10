@@ -12,7 +12,7 @@ export default function craftArtifacts() {
             <h4 class="flex-grow-1 m-0">Craft artifacts</h4>
             <span class="fs-5">${points}</span>
         </div>
-        <div class="row">
+        <div class="row row-with-center-separator">
             <div class="col-md-6">
                 <${NumberInput} id="f-craft-artifact-rare-r3" name="rare_rank_3" label="rare rank 3" value=${local.rare_rank_3} update=${setNewValue} />
                 <${NumberInput} id="f-craft-artifact-rare-r4" name="rare_rank_4" label="rare rank 4" value=${local.rare_rank_4} update=${setNewValue} />

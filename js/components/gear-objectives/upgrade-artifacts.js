@@ -12,7 +12,7 @@ export default function upgradeArtifacts() {
             <h4 class="flex-grow-1 m-0">Upgrade artifacts & accessories</h4>
             <span class="fs-5">${points}</span>
         </div>
-        <div class="row">
+        <div class="row row-with-center-separator">
             <div class="col-md-6">
                 <${NumberInput} id="f-artifact-r13-level-4" name="rank_1_3_level_4" label="r1-3 level 4" value=${local.rank_1_3_level_4} update=${setNewValue} />
                 <${NumberInput} id="f-artifact-r13-level-8" name="rank_1_3_level_8" label="r1-3 level 8" value=${local.rank_1_3_level_8} update=${setNewValue} />

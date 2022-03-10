@@ -21,8 +21,8 @@ export default function getLevelsPointsForBrew(brewCount, rankName, levelsCount)
     let levelsMin, levelsMax,
         pointsMin, pointsMax;
     const xpToRankUp = experienceToNextLevel[rankName].reduce(reduceAdd, 0);
-    console.log('rankName', rankName, 'levelsCount', levelsCount);
-    console.log('xpToRankUp', xpToRankUp);
+    //console.log('rankName', rankName, 'levelsCount', levelsCount);
+    //console.log('xpToRankUp', xpToRankUp);
 
     // min
     const levelUpsMinFull = Math.floor(brewTotalXpMin / xpToRankUp);

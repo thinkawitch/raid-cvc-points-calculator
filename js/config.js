@@ -1,5 +1,5 @@
 
-const storageKey = 'calculator-state-v2'; // update before publishing new version
+const storageKey = 'calculator-state-v3'; // update before publishing new version
 
 const awardPoints = {
     get_champions: {
@@ -100,6 +100,8 @@ const awardPoints = {
         stage_16_19: 30,
         stage_20_24: 100,
         stage_25: 150,
+        stage_hard_1_9: 175,
+        stage_hard_10: 200,
     },
     ice_golem_stages: {
         stage_1_5: 10,
@@ -108,6 +110,8 @@ const awardPoints = {
         stage_16_19: 100,
         stage_20_24: 200,
         stage_25: 300,
+        stage_hard_1_9: 350,
+        stage_hard_10: 400,
     },
     fire_knight_stages: {
         stage_1_5: 10,
@@ -116,6 +120,8 @@ const awardPoints = {
         stage_16_19: 100,
         stage_20_24: 200,
         stage_25: 300,
+        stage_hard_1_9: 350,
+        stage_hard_10: 400,
     },
     spider_stages: {
         stage_1_5: 10,
@@ -124,6 +130,8 @@ const awardPoints = {
         stage_16_19: 100,
         stage_20_24: 200,
         stage_25: 300,
+        stage_hard_1_9: 350,
+        stage_hard_10: 400,
     },
     faction_wars_stages: {
         stage_1_5: 50,
@@ -218,8 +226,10 @@ const beatStagesToLevelUp = {
     brutal_12_6: {
         rank_1: 3,
         rank_2: 10,
-        rank_3: 22,
+        rank_3: 23,
         rank_4: 52,
+        rank_5: 110,
+        rank_6: 229,
     },
 }
 

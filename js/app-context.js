@@ -250,6 +250,8 @@ const initialState = {
                 stage_16_19: 0,
                 stage_20_24: 0,
                 stage_25: 0,
+                stage_hard_1_9: 0,
+                stage_hard_10: 0,
             },
             ice_golem_stages: {
                 stage_1_5: 0,
@@ -258,6 +260,8 @@ const initialState = {
                 stage_16_19: 0,
                 stage_20_24: 0,
                 stage_25: 0,
+                stage_hard_1_9: 0,
+                stage_hard_10: 0,
             },
             fire_knight_stages: {
                 stage_1_5: 0,
@@ -266,6 +270,8 @@ const initialState = {
                 stage_16_19: 0,
                 stage_20_24: 0,
                 stage_25: 0,
+                stage_hard_1_9: 0,
+                stage_hard_10: 0,
             },
             spider_stages: {
                 stage_1_5: 0,
@@ -274,6 +280,8 @@ const initialState = {
                 stage_16_19: 0,
                 stage_20_24: 0,
                 stage_25: 0,
+                stage_hard_1_9: 0,
+                stage_hard_10: 0,
             },
         },
         faction_wars_objectives: {

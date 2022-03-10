@@ -12,7 +12,7 @@ export default function ascendChampions() {
             <h4 class="flex-grow-1 m-0">Ascend champions</h4>
             <span class="fs-5">${points}</span>
         </div>
-        <div class="row">
+        <div class="row row-with-center-separator">
             <div class="col-md-6">
                 <${NumberInput} id="f-ascend-uncommon-1" name="uncommon_1" label="uncommon level 1" value=${local.uncommon_1} update=${setNewValue} />
                 <${NumberInput} id="f-ascend-uncommon-2" name="uncommon_2" label="uncommon level 2" value=${local.uncommon_2} update=${setNewValue} />

@@ -1,4 +1,4 @@
-import { html, render, useContext } from './imports.js';
+import {html, render, useContext } from './imports.js';
 import { AppContext, AppProvider } from './app-context.js';
 import Header from './components/header.js';
 import AccordionItem from './components/accordion-item.js';
@@ -68,7 +68,7 @@ function Main() {
             </div>
             <div class="accordion-item">
                 <${AccordionItem} id="accordion-item-1" title="Champion objectives" counter=${pointsChampions}>
-                    <div class="row">
+                    <div class="row row-with-center-separator">
                         <div class="col-md-6">
                             <${GetChampions} />
                         </div>
@@ -76,7 +76,7 @@ function Main() {
                             <${GetChampionsFirst} />
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row row-with-center-separator">
                         <div class="col-md-6 mt-3">
                             <${UpgradeLevels} />
                         </div>
@@ -85,7 +85,7 @@ function Main() {
                         </div>
                     </div>
                     <${AscendChampions} />
-                    <div class="row">
+                    <div class="row row-with-center-separator">
                         <div class="col-md-6 mt-3">
                             <${UpgradeSkills} />
                         </div>
@@ -97,7 +97,7 @@ function Main() {
             </div>
             <div class="accordion-item">
                 <${AccordionItem} id="accordion-item-2" title="Beat stages objectives" counter=${pointsStages}>
-                    <div class="row">
+                    <div class="row row-with-center-separator">
                         <div class="col-md-6">
                             <${CampaignStages} />
                         </div>
@@ -105,23 +105,23 @@ function Main() {
                             <${PotionKeepStages} />
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row row-with-center-separator">
                         <div class="col-md-6 mt-3">
                             <${MinotaurStages} />
                         </div>
+                    </div>
+                    <div class="row row-with-center-separator">
                         <div class="col-md-6 mt-3">
                             <${DragonStages} />
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-6 mt-3">
                             <${IceGolemStages} />
                         </div>
+                    </div>
+                    <div class="row row-with-center-separator">
                         <div class="col-md-6 mt-3">
                             <${FireKnightStages} />
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-6 mt-3">
                             <${SpiderStages} />
                         </div>
@@ -130,7 +130,7 @@ function Main() {
             </div>
             <div class="accordion-item">
                 <${AccordionItem} id="accordion-item-3" title="Faction wars" counter=${pointsFactionWars}>
-                    <div class="row">
+                    <div class="row row-with-center-separator">
                         <div class="col-md-6">
                             <${FactionWarsStages} />
                         </div>
@@ -142,7 +142,7 @@ function Main() {
             </div>
             <div class="accordion-item">
                 <${AccordionItem} id="accordion-item-4" title="Arena" counter=${pointsArena}>
-                    <div class="row">
+                    <div class="row row-with-center-separator">
                         <div class="col-md-6">
                             <${ClassicArenaMedals} />
                         </div>
@@ -159,7 +159,7 @@ function Main() {
             </div>
             <div class="accordion-item">
                 <${AccordionItem} id="accordion-item-6" title="Gear objectives" counter=${pointsGearObjectives}>
-                    <div class="row">
+                    <div class="row row-with-center-separator">
                         <div class="col-md-6">
                             <${UseGlyphs} />
                         </div>
@@ -174,7 +174,7 @@ function Main() {
             </div>
             <div class="accordion-item">
                 <${AccordionItem} id="accordion-item-8" title="Misc objectives" counter=${pointsMiscObjectives}>
-                    <div class="row">
+                    <div class="row row-with-center-separator">
                         <div class="col-md-6">
                             <${UseGems} />
                         </div>
