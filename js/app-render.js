@@ -1,4 +1,4 @@
-import {html, render, useContext } from './imports.js';
+import { html, render, useContext } from './imports.js';
 import { AppContext, AppProvider } from './app-context.js';
 import Header from './components/header.js';
 import AccordionItem from './components/accordion-item.js';
@@ -20,13 +20,16 @@ import SpiderStages from './components/stages-objectives/spider-stages.js';
 import FactionWarsStages from './components/faction-wars-objectives/faction-wars-stages.js';
 import ClassicArenaMedals from './components/arena-objectives/classic-arena-medals.js';
 import TagTeamArenaBars from './components/arena-objectives/tag-team-arena-bars.js';
+import LiveArenaCrests from './components/arena-objectives/live-arena-crests.js';
 import ClanBossChests from './components/clan-boss-objectives/clan-boss-chests.js';
 import UseGlyphs from './components/gear-objectives/use-glyphs.js';
 import UpgradeArtifacts from './components/gear-objectives/upgrade-artifacts.js';
+import AscendArtifacts from './components/gear-objectives/ascend-artifacts.js';
 import CraftArtifacts from './components/forge-objectives/craft-artifacts.js';
 import UseGems from './components/misc-objectives/use-gems.js';
 import PrepareChickens from './components/scenarios/prepare-chickens.js';
 import DrinkBrew from './components/scenarios/drink-brew.js';
+import RegularPoints from './components/scenarios/regular-points.js';
 
 
 function App() {
@@ -54,18 +57,25 @@ function Main() {
     const pointsGearObjectives = nf.format(state.points.subtotals.gear_objectives);
     const pointsForgeObjectives = nf.format(state.points.subtotals.forge_objectives);
     const pointsMiscObjectives = nf.format(state.points.subtotals.misc_objectives);
+    const viewModeFull = state.layout.view_mode.full;
     return html`
         <div class="accordion">
             <div class="accordion-item">
                 <${AccordionItem} id="accordion-item-scenarios" title="Scenarios">
-                    <${ScenarioItem} id="scenario-item-1" title="Level up">
+                    <${ScenarioItem} id="scenario-item-1" title="s1: Regular points" last=${!viewModeFull}>
+                        <${RegularPoints} />
+                    <//>
+                    ${viewModeFull && html`
+                    <${ScenarioItem} id="scenario-item-2" title="s2: Level up">
                         <${PrepareChickens} />    
                     <//>
-                    <${ScenarioItem} id="scenario-item-2" title="Brew">
+                    <${ScenarioItem} id="scenario-item-3" title="s3: Brew" last>
                         <${DrinkBrew} />
                     <//>
+                    `}
                 <//>
             </div>
+            ${viewModeFull && html`
             <div class="accordion-item">
                 <${AccordionItem} id="accordion-item-1" title="Champion objectives" counter=${pointsChampions}>
                     <div class="row row-with-center-separator">
@@ -95,6 +105,7 @@ function Main() {
                     </div>
                 <//>
             </div>
+            `}
             <div class="accordion-item">
                 <${AccordionItem} id="accordion-item-2" title="Beat stages objectives" counter=${pointsStages}>
                     <div class="row row-with-center-separator">
@@ -148,6 +159,9 @@ function Main() {
                         </div>
                         <div class="col-md-6 mt-3 mt-md-0">
                             <${TagTeamArenaBars} />
+                            <div class="mt-3">
+                                <${LiveArenaCrests} />
+                            </div>
                         </div>
                     </div>
                 <//>
@@ -165,6 +179,7 @@ function Main() {
                         </div>
                     </div>
                     <${UpgradeArtifacts} />
+                    <${AscendArtifacts} />
                 <//>
             </div>
             <div class="accordion-item">
@@ -172,6 +187,7 @@ function Main() {
                     <${CraftArtifacts} />
                 <//>
             </div>
+            ${viewModeFull && html`
             <div class="accordion-item">
                 <${AccordionItem} id="accordion-item-8" title="Misc objectives" counter=${pointsMiscObjectives}>
                     <div class="row row-with-center-separator">
@@ -181,6 +197,7 @@ function Main() {
                     </div>
                 <//>
             </div>
+            `}
         </div>
     `;
 }

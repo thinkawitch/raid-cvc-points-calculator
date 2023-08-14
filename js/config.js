@@ -1,5 +1,5 @@
 
-const storageKey = 'calculator-state-v3'; // update before publishing new version
+const storageKey = 'calculator-state-030824'; // update before publishing new version
 
 const awardPoints = {
     get_champions: {
@@ -141,26 +141,66 @@ const awardPoints = {
         stage_21: 1000,
     },
     classic_arena: {
+        // points per medal
         bronze_medal: 5,
         silver_medal: 10,
         gold_medal: 20,
+        // medals for win
+        tier_medals: {
+            bronze_1: 1,
+            bronze_2: 1,
+            bronze_3: 2,
+            bronze_4: 2,
+            silver_1: 1,
+            silver_2: 2,
+            silver_3: 2,
+            silver_4: 3,
+            gold_1: 2,
+            gold_2: 2,
+            gold_3: 3,
+            gold_4: 4,
+            gold_5: 4,
+            platinum: 5, // gold medals too
+        },
+        tier_types: {
+            bronze: [ 'bronze_1', 'bronze_2', 'bronze_3', 'bronze_4' ],
+            silver: [ 'silver_1', 'silver_2', 'silver_3', 'silver_4' ],
+            gold: [ 'gold_1', 'gold_2', 'gold_3', 'gold_4', 'gold_5', 'platinum' ],
+        }
     },
     tag_team_arena: {
         gold_bars: 5,
+        tier_bars: {
+            bronze_1: 6,
+            bronze_2: 8,
+            bronze_3: 11,
+            bronze_4: 15,
+            silver_1: 25,
+            silver_2: 29,
+            silver_3: 33,
+            silver_4: 37,
+            gold_1: 42,
+            gold_2: 44,
+            gold_3: 47,
+            gold_4: 52,
+        },
+    },
+    live_arena: {
+        crests: 5,
     },
     clan_boss_chests: {
         novice: 10,
         adept: 20,
         warrior: 30,
         knight: 80,
-        guardian: 90,
+        guardian: 90, // 3
         master: 100,
-        grandmaster: 300,
-        ultimate: 400,
+        grandmaster: 300, // 4
+        ultimate: 400, // 5
         mythical: 500,
         divine: 800,
         celestial: 900,
-        transcendent: 1000,
+        transcendent: 1000, // 6
     },
     use_glyphs: {
         rank_1: 5,
@@ -183,6 +223,16 @@ const awardPoints = {
         rank_6_level_8: 60,
         rank_6_level_12: 300,
         rank_6_level_16: 1500,
+    },
+    ascend_artifacts: {
+        rank_4_level_1_2: 50,
+        rank_4_level_3_4: 100,
+        rank_5_level_1_2: 60,
+        rank_5_level_3_4: 125,
+        rank_5_level_5: 500,
+        rank_6_level_1_2: 75,
+        rank_6_level_3_4: 150,
+        rank_6_level_5_6: 700,
     },
     craft_artifacts: {
         rare_rank_3: 5,

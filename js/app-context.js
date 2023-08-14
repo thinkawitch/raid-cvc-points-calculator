@@ -1,6 +1,8 @@
 import { html, createContext, useReducer } from './imports.js';
 import clone from './helpers/clone.js';
 import actionUpdatePropertyByPath from './app-context/actions/update-by-path.js';
+import actionRegularPointsPrepare from './app-context/actions/regular-points-prepare.js';
+import actionRegularPointsSet from './app-context/actions/regular-points-set.js';
 import actionR5ChickensPrepare from './app-context/actions/r5-chickens-prepare.js';
 import actionR5ChickensToPoints from './app-context/actions/r5-chickens-to-points.js';
 import actionBrewPrepare from './app-context/actions/brew-prepare.js';
@@ -33,8 +35,26 @@ const reducer = (state, action) => {
             if (localStorageAvailable) {
                 localStorage.clear(); // clear all data, delete obsolete states too
             }
-            newState = clone(initialState); // deep cloning, may be replace with func returning the initial state
+            newState = clone(initialState); // deep cloning, maybe replace with func returning the initial state
             newState.layout = clone(state.layout); // keep layout
+            actionRegularPointsPrepare(newState); // prepare points for scenario 1
+            break;
+        // regular points: prepare
+        case 'regular_points_prepare':
+            newState = clone(state);
+            if ('arena_tier' in action) {
+                actionUpdatePropertyByPath(newState, 'inputs.scenarios.regular_points.arena_tier', action.arena_tier);
+            }
+            if ('tag_team_tier' in action) {
+                actionUpdatePropertyByPath(newState, 'inputs.scenarios.regular_points.tag_team_tier', action.tag_team_tier);
+            }
+            actionRegularPointsPrepare(newState);
+            break;
+        // regular points: set
+        case 'regular_points_set':
+            newState = clone(state);
+            actionRegularPointsSet(newState, action.value);
+            calculatePoints(newState);
             break;
         // prepare r5 chickens
         case 'r5_chickens_prepare':
@@ -122,6 +142,7 @@ const initialState = {
         arena_objectives: {
             classic_arena: 0,
             tag_team_arena: 0,
+            live_arena: 0,
         },
         clan_boss_objectives: {
           clan_boss_chests: 0,
@@ -129,6 +150,7 @@ const initialState = {
         gear_objectives: {
             use_glyphs: 0,
             upgrade_artifacts: 0,
+            ascend_artifacts: 0,
         },
         forge_objectives: {
             craft_artifacts: 0,
@@ -302,6 +324,9 @@ const initialState = {
             tag_team_arena: {
                 gold_bars: 0,
             },
+            live_arena: {
+                crests: 0,
+            },
         },
         clan_boss_objectives: {
             clan_boss_chests: {
@@ -342,6 +367,16 @@ const initialState = {
                 rank_6_level_12: 0,
                 rank_6_level_16: 0,
             },
+            ascend_artifacts: {
+                rank_4_level_1_2: 0,
+                rank_4_level_3_4: 0,
+                rank_5_level_1_2: 0,
+                rank_5_level_3_4: 0,
+                rank_5_level_5: 0,
+                rank_6_level_1_2: 0,
+                rank_6_level_3_4: 0,
+                rank_6_level_5_6: 0,
+            },
         },
         forge_objectives: {
             craft_artifacts: {
@@ -365,11 +400,16 @@ const initialState = {
             },
         },
         scenarios: {
+            regular_points: {
+                arena_tier: 'gold_5',
+                tag_team_tier: 'silver_1',
+            },
             prepare_r5_chickens: 0,
             drink_brew: 0,
         },
     },
     scenarios: {
+        regular_points: 54280, // default value for default arena tiers
         prepare_r5_chickens: {
             energy: 0,
             energy_r1_10: 0,
@@ -438,7 +478,11 @@ const initialState = {
         scenario_items_collapsed: {
           'scenario-item-1': false,
           'scenario-item-2': true,
+          'scenario-item-3': true,
         },
+        view_mode: {
+            full: false,
+        }
     },
 }
 
@@ -469,6 +513,7 @@ export const prepareStateUpdateWithPath = (prefix, updateState) => {
 
 export function AppProvider({ children }) {
     const [state, updateState] = useReducer(reducer, startState);
+    //console.log('AppProvider', state);
     return html`
         <${AppContext.Provider} value=${{ state, updateState }}>
             ${children}

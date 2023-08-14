@@ -179,7 +179,7 @@ export default function prepareChickens() {
             </tr>
             </tbody>
             </table>
-            <p class="small pb-3">
+            <p class="small mb-0">
                 min - beat campaign stages and upgrade levels, max - get champions, upgrade ranks, +min.
             </p>
         </div>

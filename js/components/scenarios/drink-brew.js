@@ -168,7 +168,7 @@ export default function drinkBrew() {
             </tr>
             </tbody>
             </table>
-            <p class="small">
+            <p class="small mb-0">
                 min - color doesn't suit, max - brew color suits.
             </p>
         </div>
