@@ -3,6 +3,16 @@ import { AppContext } from '../../app-context.js';
 import Select from '../select.js';
 
 const arenaOptions = [
+    { value: 'bronze_1', name: 'bronze 1' },
+    { value: 'bronze_2', name: 'bronze 2' },
+    { value: 'bronze_3', name: 'bronze 3' },
+    { value: 'bronze_4', name: 'bronze 4' },
+    { value: 'silver_1', name: 'silver 1' },
+    { value: 'silver_2', name: 'silver 2' },
+    { value: 'silver_3', name: 'silver 3' },
+    { value: 'silver_4', name: 'silver 4' },
+    { value: 'gold_1', name: 'gold 1' },
+    { value: 'gold_2', name: 'gold 2' },
     { value: 'gold_3', name: 'gold 3' },
     { value: 'gold_4', name: 'gold 4' },
     { value: 'gold_5', name: 'gold 5' },
@@ -40,11 +50,11 @@ export default function regularPoints() {
         <div>
             <div class="d-flex flex-wrap">
                 <div class="me-1 mb-1">
-                    Arena tear 
+                    Arena tier 
                     <${Select} name="arena_tier" value=${arenaTier} update=${setRpArenaValue} options=${arenaOptions} />
                 </div>
                 <div class="me-1 mb-1">
-                    Tag team tear
+                    Tag team tier
                     <${Select} name="tag_team_tier" value=${tagTeamTier} update=${setRpTagTeamValue} options=${tagTeamOptions} />
                 </div>
             </div>
