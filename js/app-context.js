@@ -409,7 +409,7 @@ const initialState = {
         },
     },
     scenarios: {
-        regular_points: 54280, // default value for default arena tiers
+        regular_points: 57860, // default value for default arena tiers
         prepare_r5_chickens: {
             energy: 0,
             energy_r1_10: 0,
