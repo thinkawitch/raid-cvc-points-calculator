@@ -1,0 +1,5 @@
+# simple config for caddy server
+http://
+
+encode zstd gzip
+file_server
