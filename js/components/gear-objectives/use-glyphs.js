@@ -11,7 +11,7 @@ export default function useGlyphs() {
     return html`
         <div class="d-flex align-items-center">
             <h4 class="flex-grow-1 m-0">Use glyphs</h4>
-            <span class="fs-5">${points}</span>
+            <span class="fs-5 text-truncate">${points}</span>
         </div>
         ${viewModeFull && html`
         <${NumberInput} id="f-glyph-rank-1" name="rank_1" label="rank 1" value=${local.rank_1} update=${setNewValue} />

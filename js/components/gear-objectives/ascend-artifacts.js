@@ -11,7 +11,7 @@ export default function ascendArtifacts() {
     return html`
         <div class="d-flex align-items-center mt-3">
             <h4 class="flex-grow-1 m-0">Ascend artifacts & accessories</h4>
-            <span class="fs-5">${points}</span>
+            <span class="fs-5 text-truncate">${points}</span>
         </div>
         <div class="row row-with-center-separator">
             ${viewModeFull && html`

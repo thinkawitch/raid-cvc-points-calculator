@@ -10,7 +10,7 @@ export default function upgradeSkills() {
     return html`
         <div class="d-flex align-items-center">
             <h4 class="flex-grow-1 m-0">Upgrade skills</h4>
-            <span class="fs-5">${points}</span>
+            <span class="fs-5 text-truncate">${points}</span>
         </div>
         <${NumberInput} id="f-upgrade-skill-common" name="common" label="common skill" value=${local.common} update=${setNewValue} />
         <${NumberInput} id="f-upgrade-skill-uncommon" name="uncommon" label="uncommon skill" value=${local.uncommon} update=${setNewValue} />

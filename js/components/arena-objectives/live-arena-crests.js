@@ -10,7 +10,7 @@ export default function liveArenaCrests() {
     return html`
         <div class="d-flex align-items-center">
             <h4 class="flex-grow-1 m-0">Live</h4>
-            <span class="fs-5">${points}</span>
+            <span class="fs-5 text-truncate">${points}</span>
         </div>
         <${NumberInput} id="f-live-arena-crests" name="crests" label="crests" value=${local.crests} update=${setNewValue} />
     `;

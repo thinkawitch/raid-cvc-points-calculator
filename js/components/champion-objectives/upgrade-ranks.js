@@ -10,7 +10,7 @@ export default function upgradeRanks() {
     return html`
         <div class="d-flex align-items-center">
             <h4 class="flex-grow-1 m-0">Upgrade ranks</h4>
-            <span class="fs-5">${points}</span>
+            <span class="fs-5 text-truncate">${points}</span>
         </div>
         <div class="row align-items-center mt-1 d-none d-md-block">
             <div class="col-7">

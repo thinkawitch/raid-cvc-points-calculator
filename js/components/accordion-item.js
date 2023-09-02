@@ -19,7 +19,7 @@ export default function accordionItem({ id, title, counter, children }) {
             <button class="accordion-button ${btnClass} fs-5" type="button" onClick=${toggle} aria-expanded=${ariaExpanded} aria-controls=${idBody}>
                 <div class="d-flex flex-grow-1 align-items-center">
                     <div class="flex-grow-1">${title}</div>
-                    ${showCounter && html`<span class="me-3">${counter}</span>`}
+                    ${showCounter && html`<span class="me-3 text-truncate">${counter}</span>`}
                 </div>
             </button>
         </h2>

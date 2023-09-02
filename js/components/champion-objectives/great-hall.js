@@ -10,7 +10,7 @@ export default function greatHall() {
     return html`
         <div class="d-flex align-items-center">
             <h4 class="flex-grow-1 m-0">Great hall bonuses</h4>
-            <span class="fs-5">${points}</span>
+            <span class="fs-5 text-truncate">${points}</span>
         </div>
         <${NumberInput} id="f-great-hall-bonus-1" name="level_1" label="bonus level 1" value=${local.level_1} update=${setNewValue} />
         <${NumberInput} id="f-great-hall-bonus-2" name="level_2" label="bonus level 2" value=${local.level_2} update=${setNewValue} />

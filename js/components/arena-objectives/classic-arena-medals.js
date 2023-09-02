@@ -10,7 +10,7 @@ export default function classicArenaMedals() {
     return html`
         <div class="d-flex align-items-center">
             <h4 class="flex-grow-1 m-0">Classic</h4>
-            <span class="fs-5">${points}</span>
+            <span class="fs-5 text-truncate">${points}</span>
         </div>
         <${NumberInput} id="f-arena-medals-bronze" name="bronze_medal" label="bronze medals" value=${local.bronze_medal} update=${setNewValue} />
         <${NumberInput} id="f-arena-medals-silver" name="silver_medal" label="silver medals" value=${local.silver_medal} update=${setNewValue} />

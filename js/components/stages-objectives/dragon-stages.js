@@ -11,7 +11,7 @@ export default function beatDragonStages() {
     return html`
         <div class="d-flex align-items-center">
             <h4 class="flex-grow-1 m-0">Dragon stages</h4>
-            <span class="fs-5">${points}</span>
+            <span class="fs-5 text-truncate">${points}</span>
         </div>
         ${viewModeFull && html`
         <${NumberInput} id="f-dragon-stage-1-5" name="stage_1_5" label="stages 1-5" value=${local.stage_1_5} update=${setNewValue} />

@@ -11,7 +11,7 @@ export default function beatFireKnightStages() {
     return html`
         <div class="d-flex align-items-center">
             <h4 class="flex-grow-1 m-0">Fire knight stages</h4>
-            <span class="fs-5">${points}</span>
+            <span class="fs-5 text-truncate">${points}</span>
         </div>
         ${viewModeFull && html`
         <${NumberInput} id="f-fire-knight-stage-1-5" name="stage_1_5" label="stages 1-5" value=${local.stage_1_5} update=${setNewValue} />

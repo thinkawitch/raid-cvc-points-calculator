@@ -12,7 +12,7 @@ export default function getChampionsFirst() {
             <h4 class="flex-grow-1 m-0" title="Get champions for the first time">
                 <span class="d-md-none">Get champions for</span> the first time
             </h4>
-            <span class="fs-5">${points}</span>
+            <span class="fs-5 text-truncate">${points}</span>
         </div>
         <${NumberInput} id="f-get-champ-first-common" name="common" label="common" value=${local.common} update=${setNewValue} />
         <${NumberInput} id="f-get-champ-first-uncommon" name="uncommon" label="uncommon" value=${local.uncommon} update=${setNewValue} />

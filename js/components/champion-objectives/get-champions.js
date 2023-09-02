@@ -10,7 +10,7 @@ export default function getChampions() {
     return html`
         <div class="d-flex align-items-center">
             <h4 class="flex-grow-1 m-0">Get champions</h4>
-            <span class="fs-5">${points}</span>
+            <span class="fs-5 text-truncate">${points}</span>
         </div>
         <${NumberInput} id="f-get-champ-common" name="common" label="common" value=${local.common} update=${setNewValue} />
         <${NumberInput} id="f-get-champ-uncommon" name="uncommon" label="uncommon" value=${local.uncommon} update=${setNewValue} />
